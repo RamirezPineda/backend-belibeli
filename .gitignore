@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+
+# enviroments
+.env
+
+# locks
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# others
+postgres

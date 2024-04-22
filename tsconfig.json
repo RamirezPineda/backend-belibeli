@@ -1,0 +1,21 @@
+{
+  "exclude": ["node_modules", "dist", "coverage", "postgres"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "baseUrl": ".",
+    "outDir": "dist/",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@config/*": ["./src/config/*"],
+      "@common/*": ["./src/common/*"],
+      "@tests/*": ["./tests/*"]
+    },
+    "types": ["vitest/globals"]
+  }
+}
