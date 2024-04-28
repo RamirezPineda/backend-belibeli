@@ -1,0 +1,164 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+model User {
+  id              String            @id @default(uuid())
+  email           String            @unique
+  name            String            @db.VarChar(50)
+  password        String            @db.VarChar(100)
+  isActive        Boolean           @default(true)
+  role            Role              @default(CUSTOMER)
+  order           Order[]
+  productFavorite ProductFavorite[]
+  productReview   ProductReview[]
+  
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  description String?   @db.VarChar(250)
+  name        String    @db.VarChar(50)
+  imageUrl    String
+  product     Product[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Discount {
+  id        String    @id @default(uuid())
+  amount    Float
+  name      String    @db.VarChar(50)
+  product   Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Package {
+  id        String    @id @default(uuid())
+  high      Float
+  width     Float
+  length    Float
+  weight    Float
+  product   Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  productId String
+}
+
+enum Department {
+  MEN
+  WOMAN
+}
+
+model Product {
+  id              String            @id @default(uuid())
+  brand           String            @db.VarChar(50)
+  creationDate    DateTime          @default(now()) @db.Date
+  department      Department
+  description     String            @db.VarChar(250)
+  name            String            @db.VarChar(50)
+  price           Float
+  sizes           String[]
+  specification   String            @db.VarChar(100)
+  stock           Int
+  tax             Float
+  categoryId      String
+  discountId      String?
+  packageId       String
+  category        Category          @relation(fields: [categoryId], references: [id])
+  discount        Discount?         @relation(fields: [discountId], references: [id])
+  package         Package           @relation(fields: [packageId], references: [id])
+  productImage    ProductImage[]
+  productFavorite ProductFavorite[]
+  productReview   ProductReview[]
+  productOrder    ProductOrder[]
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  color     String   @db.VarChar(50)
+  url       String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductFavorite {
+  id        String   @id @default(uuid())
+  date      DateTime @db.Date
+  hour      DateTime @db.Time()
+  productId String
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductReview {
+  id        String   @id @default(uuid())
+  comment   String?  @db.VarChar(250)
+  date      DateTime @db.Date
+  hour      DateTime @db.Time()
+  rating    Float?
+  productId String
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id           String         @id @default(uuid())
+  code         String
+  date         DateTime       @db.Date
+  hour         DateTime       @db.Time()
+  note         String         @db.VarChar(300)
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  productOrder ProductOrder[]
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model ProductOrder {
+  id        String   @id @default(uuid())
+  quantity  Int
+  orderId   String
+  productId String
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
