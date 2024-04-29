@@ -14,7 +14,7 @@ export class AuthController {
 
   async register(req: Request, res: Response) {
     try {
-      const createUserDto: UserCreateDto = req.body;
+      const createUserDto: UserCreateDto = req.body.data;
       const newUser = await this.authService.register(createUserDto);
       const responseApi: ResponseApi = { statusCode: 201, data: newUser };
 
