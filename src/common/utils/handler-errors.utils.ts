@@ -19,12 +19,12 @@ export const handlerErrors = (res: Response, error: any) => {
 
   reponseError.errorInfo.error = 'unauthorized';
   if (error instanceof TokenExpiredError) {
-    reponseError.errorInfo.messages = ['Token expired'];
+    reponseError.errorInfo.messages = ['Expired token'];
     return res.status(400).json(reponseError.errorInfo);
   }
 
   if (error instanceof JsonWebTokenError) {
-    reponseError.errorInfo.messages = ['Token invalid'];
+    reponseError.errorInfo.messages = ['Invalid token'];
     return res.status(400).json(reponseError.errorInfo);
   }
 
