@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const loginDtoSchema = z.object({
   email: z
     .string({ message: 'Password is required' })
-    .email({ message: 'Invalid email' }),
+    .email({ message: 'The email is invalid' }),
   password: z
     .string({ message: 'Password is required' })
     .min(8, {
