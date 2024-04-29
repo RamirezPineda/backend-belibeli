@@ -7,9 +7,9 @@ export interface EnvConfigProps {
   DB_NAME: string;
   DB_HOST: string;
   DB_PORT: number;
-  JWT_PASSWORD: string;
+  JWT_SECRET: string;
   JWT_EXPIRATION: string;
-  JWT_SALT: string;
+  SALT_ROUNDS: number;
   PORT: number;
 }
 
@@ -20,8 +20,8 @@ export const EnvConfig: EnvConfigProps = {
   DB_NAME: process.env.DB_NAME ?? '',
   DB_HOST: process.env.DB_HOST ?? 'localhost',
   DB_PORT: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
-  JWT_PASSWORD: process.env.JWT_PASSWORD ?? '',
-  JWT_EXPIRATION: process.env.DB_JWT_EXPIRATION ?? '',
-  JWT_SALT: process.env.JWT_SALT ?? '',
+  JWT_SECRET: process.env.JWT_SECRET ?? '',
+  JWT_EXPIRATION: process.env.JWT_EXPIRATION ?? '',
+  SALT_ROUNDS: process.env.SALT_ROUNDS ? Number(process.env.SALT_ROUNDS) : 8,
   PORT: process.env.PORT ? Number(process.env.PORT) : 3000,
 };
