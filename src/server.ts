@@ -14,6 +14,7 @@ export class Server {
   public readonly app: Express;
   private readonly port: number;
   private readonly routes: Router;
+  private serverListener?: any;
 
   constructor(options: Options) {
     const { port, routes } = options;
@@ -34,8 +35,12 @@ export class Server {
     //* Routes
     this.app.use(PATH_PREFIX, this.routes);
 
-    this.app.listen(this.port, () => {
+    this.serverListener = this.app.listen(this.port, () => {
       console.log(`Server ready on https://localhost:${this.port} 🚀`);
     });
+  }
+
+  public close() {
+    this.serverListener?.close();
   }
 }
