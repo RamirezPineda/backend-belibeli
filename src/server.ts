@@ -1,6 +1,7 @@
 import express, { type Router, type Express } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import compression from 'compression';
 
 import { PATH_PREFIX } from '@common/constants';
 
@@ -28,6 +29,7 @@ export class Server {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cors());
     this.app.use(morgan('dev'));
+    this.app.use(compression());
 
     //* Routes
     this.app.use(PATH_PREFIX, this.routes);
