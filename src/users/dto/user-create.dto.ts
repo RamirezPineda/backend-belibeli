@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const userCreateDtoSchema = z.object({
   email: z
     .string({ message: 'Email is required' })
-    .email({ message: 'Invalid email' }),
+    .email({ message: 'The email is invalid' }),
   name: z
     .string({ message: 'Name is required' })
     .min(3, {
