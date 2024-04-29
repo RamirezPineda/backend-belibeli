@@ -62,7 +62,11 @@ Rename the .env.example file to .env and set the environment variables
 ...
 |--vitest.config.ts
 ```
+Run the database migration script
 
+```bash
+npm run db:migrate
+```
 
 ## Running the app
 
