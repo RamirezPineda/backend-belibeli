@@ -1,11 +1,17 @@
-import { type JwtPayload, sign, verify, decode } from 'jsonwebtoken';
+import { type JwtPayload, sign, verify } from 'jsonwebtoken';
 
 import { EnvConfig } from '@/config';
 import type { User } from '@/users/models/user.model';
 
 export class JsonWebToken {
   static convertToPayload(user: User): Omit<User, 'password'> {
-    return { id: user.id, email: user.email, name: user.name, role: user.role };
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      isActive: true,
+    };
   }
 
   static getPayloadData(payload: JwtPayload): Omit<User, 'password'> {
@@ -23,9 +29,5 @@ export class JsonWebToken {
 
   static async verifyToken(token: string): Promise<JwtPayload> {
     return verify(token, EnvConfig.JWT_SECRET) as JwtPayload;
-  }
-
-  static async decodeToken(token: string): Promise<string | JwtPayload | null> {
-    return decode(token);
   }
 }
