@@ -1,9 +1,14 @@
 import { prisma } from '@/common/database/conection.database';
+import type { Query } from '@common/interfaces';
 
 import type { User } from '@/users/models/user.model';
 import type { UserCreateDto, UserUpdateDto } from '@/users/dto';
 
 export class UserRepository {
+  async findAll(query: Query): Promise<User[]> {
+    return prisma.user.findMany(query);
+  }
+
   async create(userCreateDto: UserCreateDto): Promise<User> {
     return prisma.user.create({ data: { ...userCreateDto } });
   }
