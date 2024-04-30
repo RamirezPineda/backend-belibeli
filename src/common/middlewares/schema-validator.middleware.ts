@@ -17,7 +17,7 @@ export const schemaValidator =
 
       const validatedBodyData = schemaValidator.body?.parse(restBody);
       const validatedQueryData = schemaValidator.query?.parse(req.query);
-      const validatedParamsData = schemaValidator.params?.parse(req.query);
+      const validatedParamsData = schemaValidator.params?.parse(req.params);
 
       req.body = {};
       req.body.payload = payload;
