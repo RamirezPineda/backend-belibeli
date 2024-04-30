@@ -7,6 +7,7 @@ import { schemaValidator } from '@/common/middlewares';
 import { UserRepository } from '@/users/repositories/user.repository';
 import { UserService } from '@/users/services/user.service';
 import { UserController } from '@/users/controllers/user.controller';
+import { enableOrDisableDtoSchema } from '@/users/dto';
 
 export class UserRoutes {
   static get routes() {
@@ -25,6 +26,14 @@ export class UserRoutes {
       ENDPOINTS.USERS_ID,
       schemaValidator({ params: paramsDtoSchema }),
       userController.findById.bind(userController),
+    );
+    router.post(
+      ENDPOINTS.USERS_ID,
+      schemaValidator({
+        params: paramsDtoSchema,
+        body: enableOrDisableDtoSchema,
+      }),
+      userController.enableOrDisable.bind(userController),
     );
 
     return router;
