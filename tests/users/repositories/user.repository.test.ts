@@ -51,7 +51,7 @@ describe('Test user.repository', () => {
     const user = await userRepository.findByEmail(userFound.email);
 
     expect(prisma.user.findUnique).toHaveBeenCalledWith({
-      where: { email: userFound.email },
+      where: { email: userFound.email, isActive: true },
     });
     expect(user).toEqual(userFound);
   });
