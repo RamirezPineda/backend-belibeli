@@ -1,1 +1,1 @@
-export * from './schema-validator-dto.middleware';
+export * from './schema-validator.middleware';
