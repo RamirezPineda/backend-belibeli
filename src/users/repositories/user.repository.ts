@@ -1,7 +1,7 @@
 import { prisma } from '@/common/database/conection.database';
 
 import type { User } from '@/users/models/user.model';
-import { UserCreateDto } from '@/users/dto/user-create.dto';
+import type { UserCreateDto, UserUpdateDto } from '@/users/dto';
 
 export class UserRepository {
   async create(userCreateDto: UserCreateDto): Promise<User> {
@@ -14,6 +14,10 @@ export class UserRepository {
 
   async findById(id: string): Promise<User | null> {
     return prisma.user.findUnique({ where: { id, isActive: true } });
+  }
+
+  async update(id: string, data: UserUpdateDto): Promise<User> {
+    return prisma.user.update({ data, where: { id } });
   }
 
   async enableOrDisable(id: string, isActive: boolean) {
