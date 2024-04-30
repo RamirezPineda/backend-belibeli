@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { ENDPOINTS } from '@/common/constants';
-import { queryOptionsDtoSchema } from '@/common/dto';
+import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
 import { schemaValidator } from '@/common/middlewares';
 
 import { UserRepository } from '@/users/repositories/user.repository';
@@ -20,6 +20,11 @@ export class UserRoutes {
       ENDPOINTS.USERS,
       schemaValidator({ query: queryOptionsDtoSchema }),
       userController.findAll.bind(userController),
+    );
+    router.get(
+      ENDPOINTS.USERS_ID,
+      schemaValidator({ params: paramsDtoSchema }),
+      userController.findById.bind(userController),
     );
 
     return router;
