@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import type { QueryOptions, ResponseApi } from '@common/interfaces';
 import { handlerErrors } from '@/common/utils';
 import { UserService } from '@/users/services/user.service';
+import { UserCreateDto } from '../dto/user-create.dto';
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -14,6 +15,18 @@ export class UserController {
       const responseApi: ResponseApi = { statusCode: 200, data: users };
 
       res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async create(req: Request, res: Response) {
+    try {
+      const userCreateDto: UserCreateDto = req.body.data;
+      const newUser = await this.userService.create(userCreateDto);
+      const responseApi: ResponseApi = { statusCode: 201, data: newUser };
+
+      res.status(201).json(responseApi);
     } catch (error) {
       handlerErrors(res, error);
     }
