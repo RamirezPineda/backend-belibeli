@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { ENDPOINTS } from '@common/constants';
-import { schemaValidatorDto } from '@common/middlewares';
+import { schemaValidator } from '@common/middlewares';
 
 import { AuthController } from '@/auth/controllers/auth.controller';
 import { AuthService } from '@/auth/services/auth.service';
@@ -20,12 +20,12 @@ export class AuthRoutes {
 
     router.post(
       ENDPOINTS.AUTH_REGISTER,
-      schemaValidatorDto(userCreateDtoSchema),
+      schemaValidator({ body: userCreateDtoSchema }),
       authController.register.bind(authController),
     );
     router.post(
       ENDPOINTS.AUTH_LOGIN,
-      schemaValidatorDto(loginDtoSchema),
+      schemaValidator({ body: loginDtoSchema }),
       authController.login.bind(authController),
     );
 
