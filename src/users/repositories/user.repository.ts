@@ -15,4 +15,8 @@ export class UserRepository {
   async findById(id: string): Promise<User | null> {
     return prisma.user.findUnique({ where: { id, isActive: true } });
   }
+
+  async enableOrDisable(id: string, isActive: boolean) {
+    return prisma.user.update({ data: { isActive }, where: { id } });
+  }
 }
