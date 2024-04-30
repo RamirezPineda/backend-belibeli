@@ -30,4 +30,17 @@ export class UserController {
       handlerErrors(res, error);
     }
   }
+
+  async enableOrDisable(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { isActive } = req.body.data;
+      const user = await this.userService.enableOrDisable(id, isActive);
+      const responseApi: ResponseApi = { statusCode: 200, data: user };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
 }

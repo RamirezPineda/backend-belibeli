@@ -20,4 +20,9 @@ export class UserService {
 
     return userFound;
   }
+
+  async enableOrDisable(id: string, isActive: boolean) {
+    await this.userRepository.findById(id);
+    return this.userRepository.enableOrDisable(id, isActive);
+  }
 }
