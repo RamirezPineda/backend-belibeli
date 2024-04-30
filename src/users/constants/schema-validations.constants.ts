@@ -22,6 +22,15 @@ export const validatePassword = z
     message: 'The password must be less than or equal to 50 characters.',
   });
 
-export const validateIsActive = z.boolean({
-  message: 'IsActive must be of type boolean',
-});
+export const validateIsActive = z
+  .string({
+    message: 'IsActive is required',
+  })
+  .refine(
+    (val) =>
+      val.toLocaleLowerCase() === 'true' || val.toLocaleLowerCase() === 'false',
+    {
+      message: 'IsActive must be of type boolean',
+    },
+  )
+  .transform((val) => val.toLocaleLowerCase() === 'true');
