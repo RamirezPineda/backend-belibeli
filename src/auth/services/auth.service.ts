@@ -4,13 +4,12 @@ import { Bcrypt, JsonWebToken } from '@/auth/utils';
 import type { LoginDto } from '@/auth/dto/login.dto';
 import type { UserCreateDto } from '@/users/dto/user-create.dto';
 
-import type { User } from '@/users/models/user.model';
 import { UserRepository } from '@/users/repositories/user.repository';
 
 export class AuthService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async register(userCreateDto: UserCreateDto): Promise<User> {
+  async register(userCreateDto: UserCreateDto) {
     const userFound = await this.userRepository.findByEmail(
       userCreateDto.email,
     );
@@ -27,7 +26,8 @@ export class AuthService {
       password: passwordHash,
     });
 
-    return newUser;
+    const user = excludeAttributes(newUser, ['password']);
+    return user;
   }
 
   async login(loginDto: LoginDto) {
