@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { ENDPOINTS } from '@/common/constants';
 import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
 import { schemaValidator } from '@/common/middlewares';
+import { authentication, authorization } from '@/auth/middlewares';
 
 import { UserRepository } from '@/users/repositories/user.repository';
 import { UserService } from '@/users/services/user.service';
@@ -23,26 +24,36 @@ export class UserRoutes {
 
     router.get(
       ENDPOINTS.USERS,
+      authentication,
+      authorization,
       schemaValidator({ query: queryOptionsDtoSchema }),
       userController.findAll.bind(userController),
     );
     router.get(
       ENDPOINTS.USERS_ID,
+      authentication,
+      authorization,
       schemaValidator({ params: paramsDtoSchema }),
       userController.findById.bind(userController),
     );
     router.post(
       ENDPOINTS.USERS,
+      authentication,
+      authorization,
       schemaValidator({ body: userCreateDtoSchema }),
       userController.create.bind(userController),
     );
     router.patch(
       ENDPOINTS.USERS_ID,
+      authentication,
+      authorization,
       schemaValidator({ params: paramsDtoSchema, body: userUpdateDtoSchema }),
       userController.update.bind(userController),
     );
     router.post(
       ENDPOINTS.USERS_ID,
+      authentication,
+      authorization,
       schemaValidator({
         params: paramsDtoSchema,
         body: enableOrDisableDtoSchema,
