@@ -13,7 +13,10 @@ export const authentication = async (
 
     const token = authorization?.split(' ')[1];
     if (!token) {
-      throw new ResponseError({ messages: ['Token not sent'] });
+      throw new ResponseError({
+        messages: ['Token not sent'],
+        error: 'unauthorized',
+      });
     }
 
     const payloadData = await JsonWebToken.verifyToken(token);

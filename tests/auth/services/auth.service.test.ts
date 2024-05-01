@@ -54,7 +54,13 @@ describe('Test auth.service', () => {
     userRepositoryCreateSpy.mockResolvedValueOnce(newUser);
 
     const response = await authService.register(userCreateDto);
-    expect(response).toEqual(newUser);
+    expect(response).toEqual({
+      id: 'abc123',
+      email: 'jhon@gmail.com',
+      name: 'Jhon Doe',
+      role: 'CUSTOMER',
+      isActive: true,
+    });
   });
 
   test('Should return error user already exist', async () => {

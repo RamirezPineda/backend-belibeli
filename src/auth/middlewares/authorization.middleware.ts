@@ -13,6 +13,7 @@ export const authorization = async (
     if (user.role !== EnumRole.ADMIN) {
       throw new ResponseError({
         messages: ['You do not have authorization to access this resource'],
+        error: 'unauthorized',
       });
     }
     next();
