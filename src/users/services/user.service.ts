@@ -48,7 +48,8 @@ export class UserService {
       throw new ResponseError({ messages: ['User not found'] });
     }
 
-    return userFound;
+    const user = excludeAttributes(userFound, ['password']);
+    return user;
   }
 
   async update(id: string, userUpdateDto: UserUpdateDto) {
@@ -83,6 +84,9 @@ export class UserService {
 
   async enableOrDisable(id: string, isActive: boolean) {
     await this.userRepository.findById(id);
-    return this.userRepository.enableOrDisable(id, isActive);
+    const userUpdated = await this.userRepository.enableOrDisable(id, isActive);
+
+    const user = excludeAttributes(userUpdated, ['password']);
+    return user;
   }
 }
