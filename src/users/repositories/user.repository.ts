@@ -25,7 +25,7 @@ export class UserRepository {
     return prisma.user.update({ data, where: { id } });
   }
 
-  async enableOrDisable(id: string, isActive: boolean) {
+  async enableOrDisable(id: string, isActive: boolean): Promise<User> {
     return prisma.user.update({ data: { isActive }, where: { id } });
   }
 }
