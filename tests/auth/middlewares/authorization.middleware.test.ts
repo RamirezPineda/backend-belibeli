@@ -50,7 +50,7 @@ describe('Test authorization.middleware', () => {
     expect(res.json).toHaveBeenCalledWith({
       messages: ['You do not have authorization to access this resource'],
       statusCode: 400,
-      error: 'Bad Request',
+      error: 'unauthorized',
     });
   });
 });

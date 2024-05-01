@@ -56,6 +56,7 @@ describe('Test authentication.middleware', () => {
     JsonWebToken.verifyToken = vi.fn().mockResolvedValueOnce(
       new ResponseError({
         messages: ['Token not sent'],
+        error: 'unauthorized',
       }),
     );
 
@@ -65,7 +66,7 @@ describe('Test authentication.middleware', () => {
     expect(res.json).toHaveBeenCalledWith({
       messages: ['Token not sent'],
       statusCode: 400,
-      error: 'Bad Request',
+      error: 'unauthorized',
     });
   });
 
