@@ -7,7 +7,11 @@ import { schemaValidator } from '@/common/middlewares';
 import { UserRepository } from '@/users/repositories/user.repository';
 import { UserService } from '@/users/services/user.service';
 import { UserController } from '@/users/controllers/user.controller';
-import { enableOrDisableDtoSchema, userCreateDtoSchema } from '@/users/dto';
+import {
+  enableOrDisableDtoSchema,
+  userCreateDtoSchema,
+  userUpdateDtoSchema,
+} from '@/users/dto';
 
 export class UserRoutes {
   static get routes() {
@@ -31,6 +35,11 @@ export class UserRoutes {
       ENDPOINTS.USERS,
       schemaValidator({ body: userCreateDtoSchema }),
       userController.create.bind(userController),
+    );
+    router.patch(
+      ENDPOINTS.USERS_ID,
+      schemaValidator({ params: paramsDtoSchema, body: userUpdateDtoSchema }),
+      userController.update.bind(userController),
     );
     router.post(
       ENDPOINTS.USERS_ID,
