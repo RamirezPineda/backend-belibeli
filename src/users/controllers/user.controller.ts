@@ -4,6 +4,7 @@ import type { QueryOptions, ResponseApi } from '@common/interfaces';
 import { handlerErrors } from '@/common/utils';
 import { UserService } from '@/users/services/user.service';
 import { UserCreateDto } from '../dto/user-create.dto';
+import { UserUpdateDto } from '../dto';
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -37,6 +38,19 @@ export class UserController {
       const { id } = req.params;
       const user = await this.userService.findById(id);
       const responseApi: ResponseApi = { statusCode: 200, data: user };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const userUpdateDto: UserUpdateDto = req.body.data;
+      const userUpdated = await this.userService.update(id, userUpdateDto);
+      const responseApi: ResponseApi = { statusCode: 200, data: userUpdated };
 
       res.status(200).json(responseApi);
     } catch (error) {

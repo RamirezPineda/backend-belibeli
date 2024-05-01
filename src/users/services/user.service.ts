@@ -3,11 +3,12 @@ import {
   ResponseError,
   convertToQuery,
   excludeAttributes,
+  removeValuesUndefined,
 } from '@/common/utils';
 import { Bcrypt } from '@/auth/utils';
 
 import { UserRepository } from '@/users/repositories/user.repository';
-import { UserCreateDto } from '@/users/dto';
+import { UserCreateDto, UserUpdateDto } from '@/users/dto';
 
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -48,6 +49,36 @@ export class UserService {
     }
 
     return userFound;
+  }
+
+  async update(id: string, userUpdateDto: UserUpdateDto) {
+    const userFound = await this.findById(id);
+
+    if (userUpdateDto.email) {
+      const anotherUser = await this.userRepository.findByEmail(
+        userUpdateDto.email,
+      );
+
+      if (anotherUser && userFound.id !== anotherUser.id) {
+        throw new ResponseError({
+          messages: ['There is already a user with that email'],
+        });
+      }
+    }
+
+    let password: string | undefined = undefined;
+    if (userUpdateDto.password) {
+      const passwordHash = await Bcrypt.encryptPassword(userUpdateDto.password);
+      password = passwordHash;
+    }
+
+    const userDto = { ...userUpdateDto, password };
+    const data = removeValuesUndefined(userDto);
+
+    const userUpdated = await this.userRepository.update(id, data);
+
+    const user = excludeAttributes(userUpdated, ['password']);
+    return user;
   }
 
   async enableOrDisable(id: string, isActive: boolean) {
