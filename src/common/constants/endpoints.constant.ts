@@ -10,4 +10,6 @@ export enum ENDPOINTS {
   CATEGORIES_ID = '/categories/:id',
   PACKAGES = '/packages',
   PACKAGES_ID = '/packages/:id',
+  PRODUCTS = '/products',
+  PRODUCTS_ID = '/products/:id',
 }
