@@ -6,4 +6,5 @@ export enum ENDPOINTS {
   AUTH_LOGIN = '/auth/login',
   USERS = '/users',
   USERS_ID = '/users/:id',
+  CATEGORIES = '/categories',
 }
