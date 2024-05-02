@@ -63,7 +63,6 @@ model Package {
   product   Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  productId String
 }
 
 enum Department {
