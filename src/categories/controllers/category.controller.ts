@@ -4,7 +4,7 @@ import { handlerErrors } from '@/common/utils';
 import type { QueryOptions, ResponseApi } from '@common/interfaces';
 
 import { CategoryService } from '@/categories/services/category.service';
-import { CategoryCreateDto } from '@/categories/dto/category-create.dto';
+import type { CategoryCreateDto, CategoryUpdateDto } from '@/categories/dto';
 
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -31,6 +31,49 @@ export class CategoryController {
         image,
       );
       const responseApi: ResponseApi = { statusCode: 200, data: newCategory };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async findById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const category = await this.categoryService.findById(id);
+      const responseApi: ResponseApi = { statusCode: 200, data: category };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const categoryUpdateDto: CategoryUpdateDto = req.body.data;
+      const image: Express.Multer.File | undefined = req.file;
+
+      const category = await this.categoryService.update(
+        id,
+        categoryUpdateDto,
+        image,
+      );
+      const responseApi: ResponseApi = { statusCode: 200, data: category };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const category = await this.categoryService.delete(id);
+      const responseApi: ResponseApi = { statusCode: 200, data: category };
 
       res.status(200).json(responseApi);
     } catch (error) {
