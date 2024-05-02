@@ -75,7 +75,7 @@ model Product {
   brand           String            @db.VarChar(50)
   creationDate    DateTime          @default(now()) @db.Date
   department      Department
-  description     String            @db.VarChar(250)
+  description     String            @db.VarChar(500)
   name            String            @db.VarChar(50)
   price           Float
   sizes           String[]
@@ -99,7 +99,6 @@ model Product {
 
 model ProductImage {
   id        String   @id @default(uuid())
-  color     String   @db.VarChar(50)
   url       String
   productId String
   product   Product  @relation(fields: [productId], references: [id])
@@ -123,7 +122,7 @@ model ProductFavorite {
 
 model ProductReview {
   id        String   @id @default(uuid())
-  comment   String?  @db.VarChar(250)
+  comment   String?  @db.VarChar(500)
   date      DateTime @db.Date
   hour      DateTime @db.Time()
   rating    Float?
