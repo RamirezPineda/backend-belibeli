@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { ENDPOINTS } from '@common/constants';
 import { AuthRoutes } from '@/auth/routes/auth.routes';
 import { UserRoutes } from '@/users/routes/user.routes';
+import { CategoryRoutes } from '@/categories/routes/category.routes';
 
 export class Routes {
   public static get routes(): Router {
@@ -13,6 +14,7 @@ export class Routes {
 
     router.use(AuthRoutes.routes);
     router.use(UserRoutes.routes);
+    router.use(CategoryRoutes.routes);
 
     return router;
   }
