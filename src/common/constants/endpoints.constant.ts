@@ -7,4 +7,5 @@ export enum ENDPOINTS {
   USERS = '/users',
   USERS_ID = '/users/:id',
   CATEGORIES = '/categories',
+  CATEGORIES_ID = '/categories/:id',
 }
