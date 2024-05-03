@@ -1,3 +1,5 @@
+import type { ProductImage } from '@/products/models';
+
 export enum DepartmentEnum {
   MEN = 'MEN',
   WOMAN = 'WOMAN',
@@ -19,4 +21,5 @@ export interface Product {
   categoryId: string;
   discountId?: string | null;
   packageId: string;
+  productImage?: ProductImage[];
 }
