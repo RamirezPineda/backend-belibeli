@@ -30,9 +30,9 @@ export class CategoryController {
         categoryCreateDto,
         image,
       );
-      const responseApi: ResponseApi = { statusCode: 200, data: newCategory };
+      const responseApi: ResponseApi = { statusCode: 201, data: newCategory };
 
-      res.status(200).json(responseApi);
+      res.status(201).json(responseApi);
     } catch (error) {
       handlerErrors(res, error);
     }

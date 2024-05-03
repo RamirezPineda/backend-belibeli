@@ -5,6 +5,7 @@ import { AuthRoutes } from '@/auth/routes/auth.routes';
 import { UserRoutes } from '@/users/routes/user.routes';
 import { CategoryRoutes } from '@/categories/routes/category.routes';
 import { PackageRoutes } from '@/packages/routes/package.routes';
+import { ProductRoutes } from '@/products/routes/produc.routes';
 
 export class Routes {
   public static get routes(): Router {
@@ -17,6 +18,8 @@ export class Routes {
     router.use(UserRoutes.routes);
     router.use(CategoryRoutes.routes);
     router.use(PackageRoutes.routes);
+    router.use(PackageRoutes.routes);
+    router.use(ProductRoutes.routes);
 
     return router;
   }
