@@ -10,5 +10,6 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# others
+# DB
+migrations
 postgres
