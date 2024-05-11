@@ -27,8 +27,6 @@ export class ProductRoutes {
 
     router.get(
       ENDPOINTS.PRODUCTS,
-      authentication,
-      authorization,
       schemaValidator({ query: queryOptionsDtoSchema }),
       productController.findAll.bind(productController),
     );

@@ -23,8 +23,6 @@ export class CategoryRoutes {
 
     router.get(
       ENDPOINTS.CATEGORIES,
-      authentication,
-      authorization,
       schemaValidator({ query: queryOptionsDtoSchema }),
       categoryController.findAll.bind(categoryController),
     );

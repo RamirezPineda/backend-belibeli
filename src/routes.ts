@@ -6,6 +6,7 @@ import { UserRoutes } from '@/users/routes/user.routes';
 import { CategoryRoutes } from '@/categories/routes/category.routes';
 import { PackageRoutes } from '@/packages/routes/package.routes';
 import { ProductRoutes } from '@/products/routes/produc.routes';
+import { DiscountRoute } from '@/discounts/routes/discount.route';
 
 export class Routes {
   public static get routes(): Router {
@@ -20,6 +21,7 @@ export class Routes {
     router.use(PackageRoutes.routes);
     router.use(PackageRoutes.routes);
     router.use(ProductRoutes.routes);
+    router.use(DiscountRoute.routes);
 
     return router;
   }
