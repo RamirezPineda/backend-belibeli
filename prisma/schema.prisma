@@ -138,8 +138,8 @@ model ProductReview {
 model Order {
   id           String         @id @default(uuid())
   code         String
-  date         DateTime       @db.Date
-  hour         DateTime       @db.Time()
+  date         DateTime       @db.Date @default(now())
+  hour         DateTime       @db.Time() @default(now())
   note         String         @db.VarChar(300)
   userId       String
   user         User           @relation(fields: [userId], references: [id])
