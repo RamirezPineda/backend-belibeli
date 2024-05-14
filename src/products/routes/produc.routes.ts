@@ -40,8 +40,6 @@ export class ProductRoutes {
     );
     router.get(
       ENDPOINTS.PRODUCTS_ID,
-      authentication,
-      authorization,
       schemaValidator({ params: paramsDtoSchema }),
       productController.findById.bind(productController),
     );
