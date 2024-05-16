@@ -137,7 +137,7 @@ model ProductReview {
 
 model Order {
   id           String         @id @default(uuid())
-  code         String
+  code         String         @default(uuid())
   date         DateTime       @db.Date @default(now())
   hour         DateTime       @db.Time() @default(now())
   note         String         @db.VarChar(300)

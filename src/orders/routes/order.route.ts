@@ -11,6 +11,7 @@ import {
 import { authentication, authorization } from '@/auth/middlewares';
 
 import { OrderRepository } from '@/orders/repositories/order.repository';
+import { ProductRepository } from '@/products/repositories/product.repository';
 import { OrderService } from '@/orders/services/order.service';
 import { OrderController } from '@/orders/controllers/order.controller';
 import { orderCreateDtoSchema } from '@/orders/dto';
@@ -19,8 +20,9 @@ export class OrderRoute {
   static get routes() {
     const router = Router();
 
+    const productRepository = new ProductRepository();
     const orderRepository = new OrderRepository();
-    const orderService = new OrderService(orderRepository);
+    const orderService = new OrderService(orderRepository, productRepository);
     const orderController = new OrderController(orderService);
 
     router.get(
