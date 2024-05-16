@@ -20,10 +20,12 @@ export class OrderRepository {
     });
   }
 
-  async create(data: OrderCreateDto, userId: string): Promise<Order> {
+  async create(
+    data: Omit<OrderCreateDto, 'confirmationTokenId'>,
+    userId: string,
+  ): Promise<Order> {
     return prisma.order.create({
       data: {
-        code: data.code,
         note: data.note,
         userId,
         productOrder: { create: data.productOrder },
