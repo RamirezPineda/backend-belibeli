@@ -34,7 +34,9 @@ export class ProductService {
     productCreateDto: ProductCreateDto,
     images: Express.Multer.File[],
   ) {
-    const promiseImages = images.map((image) => UploadFile.upload(image.path));
+    const promiseImages = images.map((image) =>
+      UploadFile.upload(image.path, '/products'),
+    );
     const uploadedImages = await Promise.all(promiseImages);
 
     const productImageCreateDto: ProductImageCreateDto[] = uploadedImages.map(
