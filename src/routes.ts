@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { ENDPOINTS } from '@common/constants';
+import { SeedRoutes } from '@/seed/routes/seed.router';
 import { AuthRoutes } from '@/auth/routes/auth.routes';
 import { UserRoutes } from '@/users/routes/user.routes';
 import { CategoryRoutes } from '@/categories/routes/category.routes';
@@ -16,6 +17,7 @@ export class Routes {
     // path to check server status
     router.get(ENDPOINTS.HEALTH, (_, res) => res.status(200).json());
 
+    router.use(SeedRoutes.routes);
     router.use(AuthRoutes.routes);
     router.use(UserRoutes.routes);
     router.use(CategoryRoutes.routes);
