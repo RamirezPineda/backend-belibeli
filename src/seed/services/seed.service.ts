@@ -1,21 +1,25 @@
 import { Bcrypt } from '@/auth/utils';
 
-import type { UserCreateDto } from '@/users/dto';
 import { EnumRole } from '@/users/models/user.model';
 import { UserRepository } from '@/users/repositories/user.repository';
-
 import { CategoryRepository } from '@/categories/repositories/category.repository';
-import { CategoryCreateDto } from '@/categories/dto';
+import { PackageRepository } from '@/packages/repositories/package.repository';
+
+import type { UserCreateDto } from '@/users/dto';
+import type { CategoryCreateDto } from '@/categories/dto';
+import type { PackageCreateDto } from '@/packages/dto';
 
 export class SeedService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly categoryRepository: CategoryRepository,
+    private readonly packageRepository: PackageRepository,
   ) {}
 
   async seed() {
     await this.users();
     await this.categories();
+    await this.packages();
   }
 
   private async users() {
@@ -109,5 +113,15 @@ export class SeedService {
       'https://res.cloudinary.com/dwn7fonh6/image/upload/v1715910560/portfolio/ecommerce/categories/cap_otwgrz.png';
 
     await this.categoryRepository.create(caps, capImg);
+  }
+
+  private async packages() {
+    const newPackage: PackageCreateDto = {
+      high: 11.5,
+      weight: 15.5,
+      length: 10.9,
+      width: 5,
+    };
+    await this.packageRepository.createPackage(newPackage);
   }
 }
