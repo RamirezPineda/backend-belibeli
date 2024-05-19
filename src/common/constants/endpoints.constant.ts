@@ -19,4 +19,5 @@ export enum ENDPOINTS {
   ORDERS_USER_ID = '/orders/user/:userId',
   ORDERS_ID_USER_ID = '/orders/:id/user/:userId',
   SEED = '/seed',
+  PRODUCTS_FAVORITE = '/products-favorite',
 }
