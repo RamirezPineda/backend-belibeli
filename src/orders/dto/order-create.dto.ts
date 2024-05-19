@@ -17,20 +17,22 @@ const productOrderCreateDtoSchema = z.array(
   { message: 'Product Order is required' },
 );
 
-export const orderCreateDtoSchema = z.object({
-  note: z
-    .string({ message: 'Note is required' })
-    .min(3, {
-      message: 'The note must be greater than or equal to 3 characters.',
-    })
-    .max(300, {
-      message: 'The note must be less than or equal to 300 characters.',
+export const orderCreateDtoSchema = z
+  .object({
+    note: z
+      .string({ message: 'Note is required' })
+      .min(3, {
+        message: 'The note must be greater than or equal to 3 characters.',
+      })
+      .max(300, {
+        message: 'The note must be less than or equal to 300 characters.',
+      }),
+    confirmationTokenId: z.string({
+      message: 'Payment confirmation token is required',
     }),
-  confirmationTokenId: z.string({
-    message: 'Payment confirmation token is required',
-  }),
-  productOrder: productOrderCreateDtoSchema,
-});
+    productOrder: productOrderCreateDtoSchema,
+  })
+  .strict();
 
 export type OrderCreateDto = z.infer<typeof orderCreateDtoSchema>;
 export type ProductOrderCreateDto = z.infer<typeof productOrderCreateDtoSchema>;

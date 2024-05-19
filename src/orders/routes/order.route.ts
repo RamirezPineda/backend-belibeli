@@ -35,7 +35,6 @@ export class OrderRoute {
     router.post(
       ENDPOINTS.ORDERS,
       authentication,
-      authorization,
       schemaValidator({ body: orderCreateDtoSchema }),
       orderController.create.bind(orderController),
     );
@@ -49,6 +48,7 @@ export class OrderRoute {
 
     router.get(
       ENDPOINTS.ORDERS_USER_ID,
+      authentication,
       schemaValidator({
         params: userIdParamsDtoSchema,
         query: queryOptionsDtoSchema,
@@ -57,6 +57,7 @@ export class OrderRoute {
     );
     router.get(
       ENDPOINTS.ORDERS_ID_USER_ID,
+      authentication,
       schemaValidator({
         params: idAndUserIdParamsDtoSchema,
         query: queryOptionsDtoSchema,
