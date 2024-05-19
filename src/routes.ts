@@ -6,7 +6,7 @@ import { AuthRoutes } from '@/auth/routes/auth.routes';
 import { UserRoutes } from '@/users/routes/user.routes';
 import { CategoryRoutes } from '@/categories/routes/category.routes';
 import { PackageRoutes } from '@/packages/routes/package.routes';
-import { ProductRoutes } from '@/products/routes/produc.routes';
+import { ProductRoutes, ProductFavoriteRoutes } from '@/products/routes';
 import { DiscountRoute } from '@/discounts/routes/discount.route';
 import { OrderRoute } from '@/orders/routes/order.route';
 
@@ -24,6 +24,7 @@ export class Routes {
     router.use(PackageRoutes.routes);
     router.use(PackageRoutes.routes);
     router.use(ProductRoutes.routes);
+    router.use(ProductFavoriteRoutes.routes);
     router.use(DiscountRoute.routes);
     router.use(OrderRoute.routes);
 

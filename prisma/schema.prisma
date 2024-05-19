@@ -109,8 +109,8 @@ model ProductImage {
 
 model ProductFavorite {
   id        String   @id @default(uuid())
-  date      DateTime @db.Date
-  hour      DateTime @db.Time()
+  date      DateTime @db.Date @default(now())
+  hour      DateTime @db.Time() @default(now())
   productId String
   userId    String
   product   Product  @relation(fields: [productId], references: [id])
