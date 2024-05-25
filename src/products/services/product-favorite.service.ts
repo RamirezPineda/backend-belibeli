@@ -1,7 +1,6 @@
 import type { ProductFavorite } from '@/products/models';
 import type { ProductFavoriteAddOrRemoveDto } from '@/products/dto';
 import { ProductFavoriteRepository } from '@/products/repositories';
-import { ResponseError } from '@/common/utils';
 
 export class ProductFavoriteService {
   constructor(
@@ -16,23 +15,24 @@ export class ProductFavoriteService {
     productFavoriteAddOrRemoveDto: ProductFavoriteAddOrRemoveDto,
     userId: string,
   ): Promise<ProductFavorite> {
-    const { id, productId } = productFavoriteAddOrRemoveDto;
-    if (id) {
-      await this.findById(id);
-      return this.productFavoriteRepository.removeFromFavorites(id);
+    const { productId } = productFavoriteAddOrRemoveDto;
+    const productFavoriteFound = await this.findByProductIdAndUserId(
+      productFavoriteAddOrRemoveDto.productId,
+      userId,
+    );
+    if (productFavoriteFound) {
+      return this.productFavoriteRepository.removeFromFavorites(
+        productFavoriteFound.id,
+      );
     } else {
       return this.productFavoriteRepository.addToFavorites(productId, userId);
     }
   }
 
-  private async findById(id: string) {
-    const productFavoriteFound =
-      await this.productFavoriteRepository.findById(id);
-
-    if (!productFavoriteFound) {
-      throw new ResponseError({ messages: ['Product Favorite not found'] });
-    }
-
-    return productFavoriteFound;
+  private async findByProductIdAndUserId(productId: string, userId: string) {
+    return await this.productFavoriteRepository.findByProductIdAndUserId(
+      productId,
+      userId,
+    );
   }
 }
