@@ -9,9 +9,12 @@ export class ProductFavoriteRepository {
     });
   }
 
-  async findById(id: string): Promise<ProductFavorite | null> {
-    return prisma.productFavorite.findUnique({
-      where: { id },
+  async findByProductIdAndUserId(
+    productId: string,
+    userId: string,
+  ): Promise<ProductFavorite | null> {
+    return prisma.productFavorite.findFirst({
+      where: { productId, userId },
       include: { product: { include: { productImage: true, discount: true } } },
     });
   }
