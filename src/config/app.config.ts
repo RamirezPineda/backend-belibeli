@@ -14,6 +14,7 @@ export interface EnvConfigProps {
   CLOUDINARY_CLOUD_NAME: string;
   CLOUDINARY_API_KEY: string;
   CLOUDINARY_API_SECRET: string;
+  STRIPE_SECRET_KEY: string;
 }
 
 export const EnvConfig: EnvConfigProps = {
@@ -30,4 +31,5 @@ export const EnvConfig: EnvConfigProps = {
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME ?? '',
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY ?? '',
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET ?? '',
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? '',
 };

@@ -32,6 +32,7 @@ export class AuthController {
       res.header('Authorization', `Bearer ${token}`);
       const responseApi: ResponseApi = { statusCode: 200, data: user };
 
+      res.setHeader('Access-Control-Expose-Headers', 'Authorization');
       res.status(200).json(responseApi);
     } catch (error) {
       handlerErrors(res, error);

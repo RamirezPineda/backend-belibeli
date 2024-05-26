@@ -2,10 +2,14 @@ import { Router } from 'express';
 
 import { ENDPOINTS } from '@/common/constants';
 import { schemaValidator, upload } from '@/common/middlewares';
-import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
+import { paramsDtoSchema } from '@/common/dto';
 import { authentication, authorization } from '@/auth/middlewares';
 
-import { productCreateDtoSchema, productUpdateDtoSchema } from '@/products/dto';
+import {
+  productCreateDtoSchema,
+  productQueryOptionsDtoSchema,
+  productUpdateDtoSchema,
+} from '@/products/dto';
 import {
   ProductRepository,
   ProductImageRepository,
@@ -27,9 +31,7 @@ export class ProductRoutes {
 
     router.get(
       ENDPOINTS.PRODUCTS,
-      authentication,
-      authorization,
-      schemaValidator({ query: queryOptionsDtoSchema }),
+      schemaValidator({ query: productQueryOptionsDtoSchema }),
       productController.findAll.bind(productController),
     );
     router.post(
@@ -42,8 +44,6 @@ export class ProductRoutes {
     );
     router.get(
       ENDPOINTS.PRODUCTS_ID,
-      authentication,
-      authorization,
       schemaValidator({ params: paramsDtoSchema }),
       productController.findById.bind(productController),
     );

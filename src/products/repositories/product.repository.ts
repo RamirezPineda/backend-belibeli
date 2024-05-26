@@ -9,10 +9,12 @@ import type {
 import type { Product } from '@/products/models';
 
 export class ProductRepository {
-  async findAll(query: Query): Promise<Product[]> {
+  async findAll(query: Query, categoryId?: string): Promise<Product[]> {
+    const { where, ...rest } = query;
     return prisma.product.findMany({
-      ...query,
-      include: { productImage: true },
+      ...rest,
+      where: { ...where, category: { id: { contains: categoryId } } },
+      include: { productImage: true, discount: true },
     });
   }
 
@@ -25,14 +27,14 @@ export class ProductRepository {
         ...productCreateDto,
         productImage: { create: productImageCreateDto },
       },
-      include: { productImage: true },
+      include: { productImage: true, discount: true },
     });
   }
 
   async findById(id: string): Promise<Product | null> {
     return prisma.product.findUnique({
       where: { id },
-      include: { productImage: true },
+      include: { productImage: true, discount: true },
     });
   }
 
@@ -47,7 +49,7 @@ export class ProductRepository {
         ...productUpdateDto,
         productImage: { create: productImageCreateDto },
       },
-      include: { productImage: true },
+      include: { productImage: true, discount: true },
     });
   }
 }

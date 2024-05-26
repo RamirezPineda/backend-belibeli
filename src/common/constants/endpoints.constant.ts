@@ -12,4 +12,12 @@ export enum ENDPOINTS {
   PACKAGES_ID = '/packages/:id',
   PRODUCTS = '/products',
   PRODUCTS_ID = '/products/:id',
+  DISCOUNTS = '/discounts',
+  DISCOUNTS_ID = '/discounts/:id',
+  ORDERS = '/orders',
+  ORDERS_ID = '/orders/:id',
+  ORDERS_USER_ID = '/orders/user/:userId',
+  ORDERS_ID_USER_ID = '/orders/:id/user/:userId',
+  SEED = '/seed',
+  PRODUCTS_FAVORITE = '/products-favorite',
 }

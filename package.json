@@ -1,6 +1,6 @@
 {
   "name": "backend-belibeli",
-  "version": "0.5.0",
+  "version": "0.9.1",
   "description": "An e-commerce project to sell products online.",
   "author": "Ricky Roy Ramirez Pineda",
   "license": "MIT",
@@ -58,6 +58,7 @@
     "jsonwebtoken": "9.0.2",
     "morgan": "1.10.0",
     "multer": "1.4.5-lts.1",
+    "stripe": "15.6.0",
     "zod": "3.23.2"
   },
   "repository": {
