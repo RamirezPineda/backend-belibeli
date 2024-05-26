@@ -1,4 +1,3 @@
-import type { QueryOptions } from '@common/interfaces';
 import {
   ResponseError,
   convertToQuery,
@@ -18,6 +17,7 @@ import type {
   ProductImageCreateDto,
   ProductUpdateDto,
 } from '@/products/dto';
+import type { ProductQueryOptions } from '@/products/interfaces/product-query.interface';
 
 export class ProductService {
   constructor(
@@ -25,9 +25,10 @@ export class ProductService {
     private readonly productImageRepository: ProductImageRepository,
   ) {}
 
-  async findAll(queryOptions: QueryOptions): Promise<Product[]> {
-    const query = convertToQuery(queryOptions);
-    return this.productRepository.findAll(query);
+  async findAll(queryOptions: ProductQueryOptions): Promise<Product[]> {
+    const { categoryId, ...rest } = queryOptions;
+    const query = convertToQuery(rest);
+    return this.productRepository.findAll(query, categoryId);
   }
 
   async create(

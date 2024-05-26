@@ -1,17 +1,18 @@
 import type { Request, Response } from 'express';
 
-import type { QueryOptions, ResponseApi } from '@/common/interfaces';
+import type { ResponseApi } from '@/common/interfaces';
 import { handlerErrors } from '@/common/utils';
 
 import { ProductService } from '@/products/services/product.service';
 import type { ProductCreateDto, ProductUpdateDto } from '@/products/dto';
+import type { ProductQueryOptions } from '@/products/interfaces/product-query.interface';
 
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   async findAll(req: Request, res: Response) {
     try {
-      const queryOptions: QueryOptions = req.query;
+      const queryOptions: ProductQueryOptions = req.query;
       const products = await this.productService.findAll(queryOptions);
       const responseApi: ResponseApi = { statusCode: 200, data: products };
 

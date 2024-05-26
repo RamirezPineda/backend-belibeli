@@ -9,9 +9,11 @@ import type {
 import type { Product } from '@/products/models';
 
 export class ProductRepository {
-  async findAll(query: Query): Promise<Product[]> {
+  async findAll(query: Query, categoryId?: string): Promise<Product[]> {
+    const { where, ...rest } = query;
     return prisma.product.findMany({
-      ...query,
+      ...rest,
+      where: { ...where, category: { id: { contains: categoryId } } },
       include: { productImage: true, discount: true },
     });
   }
