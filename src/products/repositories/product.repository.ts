@@ -14,7 +14,7 @@ export class ProductRepository {
     return prisma.product.findMany({
       ...rest,
       where: { ...where, category: { id: { contains: categoryId } } },
-      include: { productImage: true, discount: true },
+      include: { productImage: true, discount: true, package: true },
     });
   }
 
@@ -27,14 +27,14 @@ export class ProductRepository {
         ...productCreateDto,
         productImage: { create: productImageCreateDto },
       },
-      include: { productImage: true, discount: true },
+      include: { productImage: true, discount: true, package: true },
     });
   }
 
   async findById(id: string): Promise<Product | null> {
     return prisma.product.findUnique({
       where: { id },
-      include: { productImage: true, discount: true },
+      include: { productImage: true, discount: true, package: true },
     });
   }
 
@@ -49,7 +49,7 @@ export class ProductRepository {
         ...productUpdateDto,
         productImage: { create: productImageCreateDto },
       },
-      include: { productImage: true, discount: true },
+      include: { productImage: true, discount: true, package: true },
     });
   }
 }
