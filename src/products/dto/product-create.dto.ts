@@ -29,8 +29,8 @@ export const productCreateDtoSchema = z
       .min(3, {
         message: 'The name must be greater than or equal to 3 characters.',
       })
-      .max(50, {
-        message: 'The name must be less than or equal to 50 characters.',
+      .max(100, {
+        message: 'The name must be less than or equal to 100 characters.',
       }),
     price: z
       .string({ message: 'Price is required' })
@@ -45,7 +45,6 @@ export const productCreateDtoSchema = z
       .array(z.string({ message: 'Sizes must be of type string' }), {
         message: 'Sizes is required',
       })
-      .nonempty('Sizes must have at least one element')
       .max(6, 'Sizes must have at most 6 elements'),
     specification: z
       .string({ message: 'Specification is required' })
