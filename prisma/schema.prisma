@@ -76,7 +76,7 @@ model Product {
   creationDate    DateTime          @default(now()) @db.Date
   department      Department
   description     String            @db.VarChar(500)
-  name            String            @db.VarChar(50)
+  name            String            @db.VarChar(100)
   price           Float
   sizes           String[]
   specification   String            @db.VarChar(100)
