@@ -49,6 +49,18 @@ export class DiscuntController {
     }
   }
 
+  async findByName(req: Request, res: Response) {
+    try {
+      const { name } = req.params;
+      const discountFound = await this.discountService.findByName(name);
+      const responseApi: ResponseApi = { statusCode: 200, data: discountFound };
+
+      res.status(responseApi.statusCode).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
