@@ -26,7 +26,7 @@ export class SeedService {
     const password = await Bcrypt.encryptPassword('12345678');
     const userAdmin = {
       email: 'ramirezpineda@gmail.com',
-      name: 'Ricky Roy Ramirez Pineda',
+      name: 'Roy Ramirez Pineda',
       password,
       role: EnumRole.ADMIN,
     };
@@ -35,9 +35,33 @@ export class SeedService {
       name: 'John Doe',
       password,
     };
+    const newUser2: UserCreateDto = {
+      email: 'william@gmail.com',
+      name: 'William Smith',
+      password,
+    };
+    const newUser3: UserCreateDto = {
+      email: 'jane@gmail.com',
+      name: 'Jane Doe',
+      password,
+    };
+    const newUser4: UserCreateDto = {
+      email: 'jordan@gmail.com',
+      name: 'Jordan Cole',
+      password,
+    };
+    const newUser5: UserCreateDto = {
+      email: 'lee@gmail.com',
+      name: 'Lee Yang',
+      password,
+    };
+    await this.userRepository.create(userAdmin);
     await Promise.all([
-      this.userRepository.create(userAdmin),
       this.userRepository.create(newUser),
+      this.userRepository.create(newUser2),
+      this.userRepository.create(newUser3),
+      this.userRepository.create(newUser4),
+      this.userRepository.create(newUser5),
     ]);
   }
 
@@ -106,7 +130,7 @@ export class SeedService {
     await this.categoryRepository.create(wallets, walletImg);
 
     const caps: CategoryCreateDto = {
-      name: 'Wallets',
+      name: 'Caps',
       description: 'This is a description',
     };
     const capImg =
@@ -117,10 +141,10 @@ export class SeedService {
 
   private async packages() {
     const newPackage: PackageCreateDto = {
-      high: 11.5,
-      weight: 15.5,
-      length: 10.9,
-      width: 5,
+      high: 27.8,
+      weight: 24.8,
+      length: 4.9,
+      width: 180,
     };
     await this.packageRepository.createPackage(newPackage);
   }
