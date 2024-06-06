@@ -10,6 +10,8 @@ export const convertToQuery = (queryOptions: QueryOptions): Query => {
   if (attr && value) {
     if (typeof value == 'boolean') {
       where = { [attr]: value };
+    } else if (attr === 'date') {
+      where = { [attr]: { equals: new Date(value) } };
     } else {
       where = { [attr]: { contains: value, mode: 'insensitive' } };
     }
