@@ -14,6 +14,7 @@ export enum ENDPOINTS {
   PRODUCTS_ID = '/products/:id',
   DISCOUNTS = '/discounts',
   DISCOUNTS_ID = '/discounts/:id',
+  DISCOUNTS_BY_NAME = '/discounts/name/:name',
   ORDERS = '/orders',
   ORDERS_ID = '/orders/:id',
   ORDERS_USER_ID = '/orders/user/:userId',
