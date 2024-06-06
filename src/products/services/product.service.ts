@@ -11,7 +11,6 @@ import {
   ProductRepository,
   ProductImageRepository,
 } from '@/products/repositories';
-import type { Product } from '@/products/models';
 import type {
   ProductCreateDto,
   ProductImageCreateDto,
@@ -25,10 +24,12 @@ export class ProductService {
     private readonly productImageRepository: ProductImageRepository,
   ) {}
 
-  async findAll(queryOptions: ProductQueryOptions): Promise<Product[]> {
+  async findAll(queryOptions: ProductQueryOptions) {
     const { categoryId, ...rest } = queryOptions;
     const query = convertToQuery(rest);
-    return this.productRepository.findAll(query, categoryId);
+    const products = await this.productRepository.findAll(query, categoryId);
+    const countData = await this.productRepository.countData(query);
+    return { data: products, countData };
   }
 
   async create(
