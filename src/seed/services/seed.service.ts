@@ -1,25 +1,31 @@
 import { Bcrypt } from '@/auth/utils';
 
-import { EnumRole } from '@/users/models/user.model';
+import { EnumRole, User } from '@/users/models/user.model';
 import { UserRepository } from '@/users/repositories/user.repository';
 import { CategoryRepository } from '@/categories/repositories/category.repository';
 import { PackageRepository } from '@/packages/repositories/package.repository';
+import { DiscountRepository } from '@/discounts/repositories/discount.repository';
 
 import type { UserCreateDto } from '@/users/dto';
 import type { CategoryCreateDto } from '@/categories/dto';
 import type { PackageCreateDto } from '@/packages/dto';
+import type { DiscountCreateDto } from '@/discounts/dto';
+import type { Discount } from '@/discounts/models/discount.model';
+import { Package } from '@/packages/models/package.model';
 
 export class SeedService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly categoryRepository: CategoryRepository,
     private readonly packageRepository: PackageRepository,
+    private readonly discountRepository: DiscountRepository,
   ) {}
 
   async seed() {
     await this.users();
     await this.categories();
     await this.packages();
+    await this.discounts();
   }
 
   private async users() {
@@ -30,39 +36,23 @@ export class SeedService {
       password,
       role: EnumRole.ADMIN,
     };
-    const newUser: UserCreateDto = {
-      email: 'john@gmail.com',
-      name: 'John Doe',
-      password,
-    };
-    const newUser2: UserCreateDto = {
-      email: 'william@gmail.com',
-      name: 'William Smith',
-      password,
-    };
-    const newUser3: UserCreateDto = {
-      email: 'jane@gmail.com',
-      name: 'Jane Doe',
-      password,
-    };
-    const newUser4: UserCreateDto = {
-      email: 'jordan@gmail.com',
-      name: 'Jordan Cole',
-      password,
-    };
-    const newUser5: UserCreateDto = {
-      email: 'lee@gmail.com',
-      name: 'Lee Yang',
-      password,
-    };
+    const users: UserCreateDto[] = [
+      { email: 'john@gmail.com', name: 'John Doe', password },
+      { email: 'william@gmail.com', name: 'William Smith', password },
+      { email: 'jane@gmail.com', name: 'jane@gmail.com', password },
+      { email: 'jordan@gmail.com', name: 'John Doe', password },
+      { email: 'lee@gmail.com', name: 'Lee Yang', password },
+      { email: 'john@gmail.com', name: 'John Doe', password },
+    ];
+
+    const promises: Promise<User>[] = [];
+
+    users.forEach((user) => {
+      promises.push(this.userRepository.create(user));
+    });
+
     await this.userRepository.create(userAdmin);
-    await Promise.all([
-      this.userRepository.create(newUser),
-      this.userRepository.create(newUser2),
-      this.userRepository.create(newUser3),
-      this.userRepository.create(newUser4),
-      this.userRepository.create(newUser5),
-    ]);
+    await Promise.all([promises]);
   }
 
   private async categories() {
@@ -140,12 +130,40 @@ export class SeedService {
   }
 
   private async packages() {
-    const newPackage: PackageCreateDto = {
-      high: 27.8,
-      weight: 24.8,
-      length: 4.9,
-      width: 180,
-    };
-    await this.packageRepository.createPackage(newPackage);
+    const packages: PackageCreateDto[] = [
+      { high: 27.8, weight: 24.8, length: 4.9, width: 180 }, // T-Shirts
+      { high: 15.5, weight: 5.7, length: 25.6, width: 120 }, // Caps
+      { high: 30.2, weight: 40.9, length: 5.2, width: 130 }, // Jeans
+      { high: 40.6, weight: 100.2, length: 15.8, width: 150 }, // Bags
+      { high: 50.3, weight: 80.6, length: 10.4, width: 160 }, // Jackets
+      { high: 20.9, weight: 60.1, length: 10.6, width: 130 }, // Shoes
+      { high: 5.7, weight: 10.3, length: 1.2, width: 50 }, // Wallets
+    ];
+
+    const promises: Promise<Package>[] = [];
+
+    packages.forEach((packagee) => {
+      promises.push(this.packageRepository.createPackage(packagee));
+    });
+
+    await Promise.all(promises);
+  }
+
+  private async discounts() {
+    const discounts: DiscountCreateDto[] = [
+      { name: 'Flash Sale', amount: 0.6 },
+      { name: 'Special Discount', amount: 0.5 },
+      { name: 'Summer Discount', amount: 0.15 },
+      { name: 'Winter Discount', amount: 0.15 },
+      { name: 'Christmas Discount', amount: 0.25 },
+    ];
+
+    const promises: Promise<Discount>[] = [];
+
+    discounts.forEach((discount) => {
+      promises.push(this.discountRepository.create(discount));
+    });
+
+    await Promise.all(promises);
   }
 }
