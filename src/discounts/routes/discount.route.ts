@@ -2,7 +2,11 @@ import { Router } from 'express';
 
 import { ENDPOINTS } from '@/common/constants';
 import { schemaValidator } from '@/common/middlewares';
-import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
+import {
+  paramsDtoSchema,
+  paramsNameDtoSchema,
+  queryOptionsDtoSchema,
+} from '@/common/dto';
 import { authentication, authorization } from '@/auth/middlewares';
 
 import { DiscountRepository } from '@/discounts/repositories/discount.repository';
@@ -56,6 +60,12 @@ export class DiscountRoute {
       authorization,
       schemaValidator({ params: paramsDtoSchema }),
       discuntController.delete.bind(discuntController),
+    );
+
+    router.get(
+      ENDPOINTS.DISCOUNTS_BY_NAME,
+      schemaValidator({ params: paramsNameDtoSchema }),
+      discuntController.findByName.bind(discuntController),
     );
 
     return router;
