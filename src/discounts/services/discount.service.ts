@@ -32,6 +32,16 @@ export class DiscountService {
     return discountFound;
   }
 
+  async findByName(name: string) {
+    const discountFound = await this.discountRepository.findByName(name);
+
+    if (!discountFound) {
+      throw new ResponseError({ messages: ['Discount not found'] });
+    }
+
+    return discountFound;
+  }
+
   async update(id: string, discountUpdateDto: DiscountUpdateDto) {
     await this.findById(id);
     const data = removeValuesUndefined(discountUpdateDto);
