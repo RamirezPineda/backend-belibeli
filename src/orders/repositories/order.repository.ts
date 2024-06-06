@@ -12,12 +12,20 @@ export class OrderRepository {
     });
   }
 
+  async countData(query: Query): Promise<number> {
+    return prisma.order.count({ where: { ...query.where } });
+  }
+
   async findAllByUserId(query: Query, userId: string): Promise<Order[]> {
     return prisma.order.findMany({
       ...query,
       where: { ...query.where, userId },
       include: { user: true, productOrder: { include: { product: true } } },
     });
+  }
+
+  async countDataByUser(query: Query, userId: string): Promise<number> {
+    return prisma.order.count({ where: { ...query.where, userId } });
   }
 
   async create(
