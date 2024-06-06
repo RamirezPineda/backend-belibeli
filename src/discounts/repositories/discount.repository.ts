@@ -24,6 +24,13 @@ export class DiscountRepository {
     });
   }
 
+  async findByName(name: string): Promise<Discount | null> {
+    return prisma.discount.findFirst({
+      where: { name: { equals: name } },
+      include: { product: true },
+    });
+  }
+
   async update(id: string, data: DiscountUpdateDto): Promise<Discount> {
     return prisma.discount.update({ where: { id }, data });
   }
