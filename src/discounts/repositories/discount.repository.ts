@@ -27,7 +27,7 @@ export class DiscountRepository {
   async findByName(name: string): Promise<Discount | null> {
     return prisma.discount.findFirst({
       where: { name: { equals: name } },
-      include: { product: true },
+      include: { product: { include: { productImage: true } } },
     });
   }
 
