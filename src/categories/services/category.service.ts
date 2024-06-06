@@ -15,7 +15,9 @@ export class CategoryService {
 
   async findAll(queryOptions: QueryOptions) {
     const query = convertToQuery(queryOptions);
-    return this.categoryRepository.findAll(query);
+    const categories = await this.categoryRepository.findAll(query);
+    const countData = await this.categoryRepository.countData(query);
+    return { data: categories, countData };
   }
 
   async create(

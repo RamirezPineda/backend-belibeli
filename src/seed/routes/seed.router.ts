@@ -7,6 +7,7 @@ import { UserRepository } from '@/users/repositories/user.repository';
 
 import { SeedController } from '@/seed/controller/seed.controller';
 import { SeedService } from '@/seed/services/seed.service';
+import { PackageRepository } from '@/packages/repositories/package.repository';
 
 export class SeedRoutes {
   static get routes() {
@@ -14,7 +15,12 @@ export class SeedRoutes {
 
     const userRepository = new UserRepository();
     const categoryRepository = new CategoryRepository();
-    const seedService = new SeedService(userRepository, categoryRepository);
+    const packageRepository = new PackageRepository();
+    const seedService = new SeedService(
+      userRepository,
+      categoryRepository,
+      packageRepository,
+    );
     const seedController = new SeedController(seedService);
 
     router.get(ENDPOINTS.SEED, seedController.seed.bind(seedController));

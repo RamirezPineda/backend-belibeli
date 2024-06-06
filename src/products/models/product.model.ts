@@ -1,4 +1,6 @@
+import type { Category } from '@/categories/models/category.model';
 import type { Discount } from '@/discounts/models/discount.model';
+import { Package } from '@/packages/models/package.model';
 import type { ProductImage } from '@/products/models';
 
 export enum DepartmentEnum {
@@ -24,4 +26,6 @@ export interface Product {
   packageId: string;
   productImage?: ProductImage[];
   discount?: Discount | null;
+  package?: Package | null;
+  category?: Category | null;
 }

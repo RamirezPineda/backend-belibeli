@@ -8,6 +8,10 @@ export class PackageRepository {
     return prisma.package.findMany(query);
   }
 
+  async countData(query: Query): Promise<number> {
+    return prisma.package.count({ where: { ...query.where } });
+  }
+
   async createPackage(packageCreateDto: PackageCreateDto): Promise<Package> {
     return prisma.package.create({ data: { ...packageCreateDto } });
   }

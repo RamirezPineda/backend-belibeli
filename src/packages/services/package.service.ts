@@ -13,7 +13,9 @@ export class PackageService {
 
   async findAll(queryOptions: QueryOptions) {
     const query = convertToQuery(queryOptions);
-    return this.packageReposiory.findAll(query);
+    const packages = await this.packageReposiory.findAll(query);
+    const countData = await this.packageReposiory.countData(query);
+    return { data: packages, countData };
   }
 
   async create(packageCreateDto: PackageCreateDto) {

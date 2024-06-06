@@ -15,12 +15,16 @@ export class OrderService {
 
   async findAll(queryOptions: QueryOptions) {
     const query = convertToQuery(queryOptions);
-    return this.orderRepository.findAll(query);
+    const orders = await this.orderRepository.findAll(query);
+    const countData = await this.orderRepository.countData(query);
+    return { data: orders, countData };
   }
 
   async findAllByUserId(queryOptions: QueryOptions, userId: string) {
     const query = convertToQuery(queryOptions);
-    return this.orderRepository.findAllByUserId(query, userId);
+    const orders = await this.orderRepository.findAllByUserId(query, userId);
+    const countData = await this.orderRepository.countDataByUser(query, userId);
+    return { data: orders, countData };
   }
 
   async create(orderCreateDto: OrderCreateDto, user: Omit<User, 'password'>) {

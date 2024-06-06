@@ -17,7 +17,12 @@ export class UserService {
     const query = convertToQuery(queryOptions);
     const users = await this.userRepository.findAll(query);
 
-    return users.map((user) => excludeAttributes(user, ['password']));
+    const usersWithoutPassword = users.map((user) =>
+      excludeAttributes(user, ['password']),
+    );
+
+    const countData = await this.userRepository.countData(query);
+    return { data: usersWithoutPassword, countData };
   }
 
   async create(userCreateDto: UserCreateDto) {

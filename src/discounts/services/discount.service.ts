@@ -13,7 +13,9 @@ export class DiscountService {
 
   async findAll(queryOptions: QueryOptions) {
     const query = convertToQuery(queryOptions);
-    return this.discountRepository.findAll(query);
+    const discounts = await this.discountRepository.findAll(query);
+    const countData = await this.discountRepository.countData(query);
+    return { data: discounts, countData };
   }
 
   async create(discountCreateDto: DiscountCreateDto) {

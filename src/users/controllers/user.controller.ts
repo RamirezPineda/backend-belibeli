@@ -12,8 +12,12 @@ export class UserController {
   async findAll(req: Request, res: Response) {
     try {
       const queryOptions: QueryOptions = req.query;
-      const users = await this.userService.findAll(queryOptions);
-      const responseApi: ResponseApi = { statusCode: 200, data: users };
+      const response = await this.userService.findAll(queryOptions);
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(200).json(responseApi);
     } catch (error) {

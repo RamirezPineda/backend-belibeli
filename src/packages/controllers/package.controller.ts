@@ -11,8 +11,12 @@ export class PackageController {
   async findAll(req: Request, res: Response) {
     try {
       const queryOptions: QueryOptions = req.query;
-      const packages = await this.packageService.findAll(queryOptions);
-      const responseApi: ResponseApi = { statusCode: 200, data: packages };
+      const response = await this.packageService.findAll(queryOptions);
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(200).json(responseApi);
     } catch (error) {

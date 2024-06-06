@@ -9,6 +9,10 @@ export class CategoryRepository {
     return prisma.category.findMany(query);
   }
 
+  async countData(query: Query): Promise<number> {
+    return prisma.category.count({ where: { ...query.where } });
+  }
+
   async create(
     categoryCreateDto: CategoryCreateDto,
     imageUrl: string,

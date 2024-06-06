@@ -12,8 +12,12 @@ export class DiscuntController {
   async findAll(req: Request, res: Response) {
     try {
       const queryOptions: QueryOptions = req.query;
-      const discounts = await this.discountService.findAll(queryOptions);
-      const responseApi: ResponseApi = { statusCode: 200, data: discounts };
+      const response = await this.discountService.findAll(queryOptions);
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(responseApi.statusCode).json(responseApi);
     } catch (error) {

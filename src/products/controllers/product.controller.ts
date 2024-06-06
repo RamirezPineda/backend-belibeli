@@ -13,8 +13,12 @@ export class ProductController {
   async findAll(req: Request, res: Response) {
     try {
       const queryOptions: ProductQueryOptions = req.query;
-      const products = await this.productService.findAll(queryOptions);
-      const responseApi: ResponseApi = { statusCode: 200, data: products };
+      const response = await this.productService.findAll(queryOptions);
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(200).json(responseApi);
     } catch (error) {
