@@ -9,6 +9,10 @@ export class UserRepository {
     return prisma.user.findMany(query);
   }
 
+  async countData(query: Query): Promise<number> {
+    return prisma.user.count({ where: { ...query.where } });
+  }
+
   async create(userCreateDto: UserCreateDto): Promise<User> {
     return prisma.user.create({ data: { ...userCreateDto } });
   }
