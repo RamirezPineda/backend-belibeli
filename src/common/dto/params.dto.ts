@@ -9,6 +9,10 @@ export const paramsDtoSchema = z.object({
   id: idValidate('Id'),
 });
 
+export const paramsNameDtoSchema = z.object({
+  name: z.string({ message: 'Nmae parameter is required' }),
+});
+
 export const userIdParamsDtoSchema = z.object({
   userId: idValidate('User Id'),
 });
@@ -18,5 +22,6 @@ export const idAndUserIdParamsDtoSchema = paramsDtoSchema.extend({
 });
 
 export type paramsDto = z.infer<typeof paramsDtoSchema>;
+export type paramsNameDto = z.infer<typeof paramsNameDtoSchema>;
 export type userIdParamsDto = z.infer<typeof userIdParamsDtoSchema>;
 export type idAndUserIdParamsDto = z.infer<typeof idAndUserIdParamsDtoSchema>;
