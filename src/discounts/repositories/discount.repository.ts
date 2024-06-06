@@ -9,6 +9,10 @@ export class DiscountRepository {
     return prisma.discount.findMany({ ...query, include: { product: true } });
   }
 
+  async countData(query: Query): Promise<number> {
+    return prisma.discount.count({ where: { ...query.where } });
+  }
+
   async create(data: DiscountCreateDto) {
     return prisma.discount.create({ data });
   }
