@@ -13,8 +13,12 @@ export class OrderController {
   async findAll(req: Request, res: Response) {
     try {
       const queryOptions: QueryOptions = req.query;
-      const orders = await this.orderService.findAll(queryOptions);
-      const responseApi: ResponseApi = { statusCode: 200, data: orders };
+      const response = await this.orderService.findAll(queryOptions);
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(responseApi.statusCode).json(responseApi);
     } catch (error) {
@@ -26,11 +30,15 @@ export class OrderController {
     try {
       const { userId } = req.params;
       const queryOptions: QueryOptions = req.query;
-      const orders = await this.orderService.findAllByUserId(
+      const response = await this.orderService.findAllByUserId(
         queryOptions,
         userId,
       );
-      const responseApi: ResponseApi = { statusCode: 200, data: orders };
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: response.data,
+        countData: response.countData,
+      };
 
       res.status(responseApi.statusCode).json(responseApi);
     } catch (error) {
