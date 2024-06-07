@@ -13,7 +13,7 @@ export class ProductRepository {
     const { where, ...rest } = query;
     return prisma.product.findMany({
       ...rest,
-      where: { ...where, category: { id: { contains: categoryId } } },
+      where: { ...where, categoryId },
       include: {
         productImage: true,
         discount: true,
@@ -68,6 +68,33 @@ export class ProductRepository {
         ...productUpdateDto,
         productImage: { create: productImageCreateDto },
       },
+      include: {
+        productImage: true,
+        discount: true,
+        package: true,
+        category: true,
+      },
+    });
+  }
+
+  async bestSeller(query: Query, categoryId?: string) {
+    return prisma.productOrder.groupBy({
+      by: ['productId'],
+      _count: { quantity: true },
+      orderBy: {
+        _count: { quantity: query.orderBy.createdAt },
+      },
+      take: query.take,
+      skip: query.skip,
+      where: {
+        product: { ...query.where, categoryId },
+      },
+    });
+  }
+
+  async findAllById(productsId: string[]): Promise<Product[]> {
+    return prisma.product.findMany({
+      where: { id: { in: productsId } },
       include: {
         productImage: true,
         discount: true,
