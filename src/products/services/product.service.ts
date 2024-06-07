@@ -114,4 +114,16 @@ export class ProductService {
       productImageCreateDto,
     );
   }
+
+  async bestSeller(queryOptions: ProductQueryOptions) {
+    const { categoryId, ...rest } = queryOptions;
+    const query = convertToQuery(rest);
+    const mostSelledProducts = await this.productRepository.bestSeller(
+      query,
+      categoryId,
+    );
+
+    const productsId = mostSelledProducts.map((item) => item.productId);
+    return this.productRepository.findAllById(productsId);
+  }
 }
