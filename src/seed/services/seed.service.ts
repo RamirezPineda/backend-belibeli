@@ -42,7 +42,6 @@ export class SeedService {
       { email: 'jane@gmail.com', name: 'jane@gmail.com', password },
       { email: 'jordan@gmail.com', name: 'John Doe', password },
       { email: 'lee@gmail.com', name: 'Lee Yang', password },
-      { email: 'john@gmail.com', name: 'John Doe', password },
     ];
 
     const promises: Promise<User>[] = [];
@@ -131,13 +130,13 @@ export class SeedService {
 
   private async packages() {
     const packages: PackageCreateDto[] = [
-      { high: 27.8, weight: 24.8, length: 4.9, width: 180 }, // T-Shirts
-      { high: 15.5, weight: 5.7, length: 25.6, width: 120 }, // Caps
-      { high: 30.2, weight: 40.9, length: 5.2, width: 130 }, // Jeans
-      { high: 40.6, weight: 100.2, length: 15.8, width: 150 }, // Bags
-      { high: 50.3, weight: 80.6, length: 10.4, width: 160 }, // Jackets
-      { high: 20.9, weight: 60.1, length: 10.6, width: 130 }, // Shoes
-      { high: 5.7, weight: 10.3, length: 1.2, width: 50 }, // Wallets
+      { high: 27.8, width: 24.8, length: 4.9, weight: 180 }, // T-Shirts
+      { high: 15.5, width: 5.7, length: 25.6, weight: 120 }, // Caps
+      { high: 30.2, width: 40.9, length: 5.2, weight: 130 }, // Jeans
+      { high: 40.6, width: 100.2, length: 15.8, weight: 150 }, // Bags
+      { high: 50.3, width: 80.6, length: 10.4, weight: 160 }, // Jackets
+      { high: 20.9, width: 60.1, length: 10.6, weight: 130 }, // Shoes
+      { high: 5.7, width: 10.3, length: 1.2, weight: 50 }, // Wallets
     ];
 
     const promises: Promise<Package>[] = [];
