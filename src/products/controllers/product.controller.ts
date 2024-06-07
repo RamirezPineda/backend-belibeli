@@ -77,4 +77,16 @@ export class ProductController {
       handlerErrors(res, error);
     }
   }
+
+  async bestSeller(req: Request, res: Response) {
+    try {
+      const queryOptions: ProductQueryOptions = req.query;
+      const products = await this.productService.bestSeller(queryOptions);
+      const responseApi: ResponseApi = { statusCode: 200, data: products };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
 }
