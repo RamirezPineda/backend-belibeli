@@ -59,6 +59,12 @@ export class ProductRoutes {
       productController.update.bind(productController),
     );
 
+    router.get(
+      ENDPOINTS.PRODUCTS_BEST_SELLER,
+      schemaValidator({ query: productQueryOptionsDtoSchema }),
+      productController.bestSeller.bind(productController),
+    );
+
     return router;
   }
 }
