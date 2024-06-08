@@ -18,5 +18,6 @@ export interface Query {
   orderBy: { createdAt: Order };
   where:
     | { [x: string]: boolean }
-    | { [x: string]: { contains: string; mode: string } };
+    | { [x: string]: { contains: string; mode: string } }
+    | { [x: string]: { gte: number } };
 }
