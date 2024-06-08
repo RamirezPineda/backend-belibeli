@@ -78,10 +78,10 @@ export class ProductController {
     }
   }
 
-  async bestSeller(req: Request, res: Response) {
+  async bestSellers(req: Request, res: Response) {
     try {
       const queryOptions: ProductQueryOptions = req.query;
-      const products = await this.productService.bestSeller(queryOptions);
+      const products = await this.productService.bestSellers(queryOptions);
       const responseApi: ResponseApi = { statusCode: 200, data: products };
 
       res.status(200).json(responseApi);
