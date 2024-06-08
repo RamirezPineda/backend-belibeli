@@ -17,6 +17,7 @@ import type {
   ProductUpdateDto,
 } from '@/products/dto';
 import type { ProductQueryOptions } from '@/products/interfaces/product-query.interface';
+import type { Product } from '@/products/models';
 
 export class ProductService {
   constructor(
@@ -115,15 +116,20 @@ export class ProductService {
     );
   }
 
-  async bestSeller(queryOptions: ProductQueryOptions) {
+  async bestSellers(queryOptions: ProductQueryOptions) {
     const { categoryId, ...rest } = queryOptions;
     const query = convertToQuery(rest);
-    const mostSelledProducts = await this.productRepository.bestSeller(
+    const mostSelledProducts = await this.productRepository.bestSellers(
       query,
       categoryId,
     );
 
-    const productsId = mostSelledProducts.map((item) => item.productId);
-    return this.productRepository.findAllById(productsId);
+    const products: Product[] = [];
+    for await (const element of mostSelledProducts) {
+      const product = await this.findById(element.productId);
+      products.push(product);
+    }
+
+    return products;
   }
 }
