@@ -84,4 +84,16 @@ export class CategoryController {
       handlerErrors(res, error);
     }
   }
+
+  async bestSellers(req: Request, res: Response) {
+    try {
+      const queryOptions: QueryOptions = req.query;
+      const categories = await this.categoryService.bestSellers(queryOptions);
+      const responseApi: ResponseApi = { statusCode: 200, data: categories };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
 }
