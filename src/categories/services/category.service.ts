@@ -9,6 +9,7 @@ import type { QueryOptions } from '@/common/interfaces';
 
 import type { CategoryCreateDto, CategoryUpdateDto } from '@/categories/dto';
 import { CategoryRepository } from '@/categories/repositories/category.repository';
+import { Category } from '../models/category.model';
 
 export class CategoryService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
@@ -60,5 +61,19 @@ export class CategoryService {
   async delete(id: string) {
     await this.findById(id);
     return this.categoryRepository.delete(id);
+  }
+
+  async bestSellers(queryOptions: QueryOptions) {
+    const query = convertToQuery(queryOptions);
+    const mostSelledCategories =
+      await this.categoryRepository.bestSellers(query);
+
+    const categories: Category[] = [];
+    for await (const element of mostSelledCategories) {
+      const category = await this.findById(element.categoryId);
+      categories.push(category);
+    }
+
+    return categories;
   }
 }
