@@ -60,6 +60,12 @@ export class CategoryRoutes {
       categoryController.delete.bind(categoryController),
     );
 
+    router.get(
+      ENDPOINTS.CATEGORIES_BEST_SELLERS,
+      schemaValidator({ query: queryOptionsDtoSchema }),
+      categoryController.bestSellers.bind(categoryController),
+    );
+
     return router;
   }
 }
