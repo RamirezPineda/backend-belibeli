@@ -12,6 +12,8 @@ export const convertToQuery = (queryOptions: QueryOptions): Query => {
       where = { [attr]: value };
     } else if (attr === 'date') {
       where = { [attr]: { equals: new Date(value) } };
+    } else if (attr == 'price') {
+      where = { [attr]: { gte: Number(value) } };
     } else {
       where = { [attr]: { contains: value, mode: 'insensitive' } };
     }
