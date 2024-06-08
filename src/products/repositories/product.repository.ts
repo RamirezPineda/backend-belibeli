@@ -77,29 +77,17 @@ export class ProductRepository {
     });
   }
 
-  async bestSeller(query: Query, categoryId?: string) {
+  async bestSellers(query: Query, categoryId?: string) {
     return prisma.productOrder.groupBy({
-      by: ['productId'],
-      _count: { quantity: true },
+      by: ['productId', 'quantity'],
+      _sum: { quantity: true },
       orderBy: {
-        _count: { quantity: query.orderBy.createdAt },
+        quantity: query.orderBy.createdAt,
       },
       take: query.take,
       skip: query.skip,
       where: {
         product: { ...query.where, categoryId },
-      },
-    });
-  }
-
-  async findAllById(productsId: string[]): Promise<Product[]> {
-    return prisma.product.findMany({
-      where: { id: { in: productsId } },
-      include: {
-        productImage: true,
-        discount: true,
-        package: true,
-        category: true,
       },
     });
   }
