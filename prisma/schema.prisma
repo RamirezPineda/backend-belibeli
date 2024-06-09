@@ -72,7 +72,7 @@ enum Department {
 
 model Product {
   id              String            @id @default(uuid())
-  brand           String            @db.VarChar(50)
+  brand           String?           @db.VarChar(50)
   creationDate    DateTime          @default(now()) @db.Date
   department      Department
   description     String            @db.VarChar(500)
@@ -81,7 +81,7 @@ model Product {
   sizes           String[]
   specification   String            @db.VarChar(100)
   stock           Int
-  tax             Float
+  tax             Float             @default(0)
   categoryId      String
   discountId      String?
   packageId       String
