@@ -61,6 +61,18 @@ export class UserRoutes {
       userController.enableOrDisable.bind(userController),
     );
 
+    router.get(
+      ENDPOINTS.USERS_PROFILE,
+      authentication,
+      userController.getProfile.bind(userController),
+    );
+    router.patch(
+      ENDPOINTS.USERS_PROFILE,
+      authentication,
+      schemaValidator({ body: userUpdateDtoSchema }),
+      userController.updateProfile.bind(userController),
+    );
+
     return router;
   }
 }
