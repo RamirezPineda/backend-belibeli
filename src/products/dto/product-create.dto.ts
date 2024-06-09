@@ -5,12 +5,10 @@ export const productCreateDtoSchema = z
   .object({
     brand: z
       .string({ message: 'Brand is required' })
-      .min(3, {
-        message: 'The brand must be greater than or equal to 3 characters.',
-      })
       .max(50, {
         message: 'The brand must be less than or equal to 50 characters.',
-      }),
+      })
+      .optional(),
     department: z.nativeEnum(DepartmentEnum, {
       message: `Department must be of type [${Object.values(DepartmentEnum)}]`,
     }),
@@ -65,9 +63,10 @@ export const productCreateDtoSchema = z
       .refine((val) => !isNaN(val), {
         message: 'Tax must be of type decimal',
       })
-      .refine((val) => val > 0, {
-        message: 'Tax must be greater than 0',
-      }),
+      .refine((val) => val >= 0, {
+        message: 'Tax must be less than or equal to 0',
+      })
+      .optional(),
     categoryId: z
       .string({ message: 'Category is required' })
       .uuid({ message: 'Category must be of type uuid' }),
