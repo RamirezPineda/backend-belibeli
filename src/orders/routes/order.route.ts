@@ -2,12 +2,7 @@ import { Router } from 'express';
 
 import { ENDPOINTS } from '@/common/constants';
 import { schemaValidator } from '@/common/middlewares';
-import {
-  idAndUserIdParamsDtoSchema,
-  paramsDtoSchema,
-  queryOptionsDtoSchema,
-  userIdParamsDtoSchema,
-} from '@/common/dto';
+import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
 import { authentication, authorization } from '@/auth/middlewares';
 
 import { OrderRepository } from '@/orders/repositories/order.repository';
@@ -47,19 +42,16 @@ export class OrderRoute {
     );
 
     router.get(
-      ENDPOINTS.ORDERS_USER_ID,
+      ENDPOINTS.ORDERS_USER,
       authentication,
-      schemaValidator({
-        params: userIdParamsDtoSchema,
-        query: queryOptionsDtoSchema,
-      }),
+      schemaValidator({ query: queryOptionsDtoSchema }),
       orderController.findAllByUserId.bind(orderController),
     );
     router.get(
-      ENDPOINTS.ORDERS_ID_USER_ID,
+      ENDPOINTS.ORDERS_USER_ID,
       authentication,
       schemaValidator({
-        params: idAndUserIdParamsDtoSchema,
+        params: paramsDtoSchema,
         query: queryOptionsDtoSchema,
       }),
       orderController.findByIdAndUserId.bind(orderController),

@@ -28,11 +28,11 @@ export class OrderController {
 
   async findAllByUserId(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+      const user: Omit<User, 'password'> = req.body.payload;
       const queryOptions: QueryOptions = req.query;
       const response = await this.orderService.findAllByUserId(
         queryOptions,
-        userId,
+        user.id,
       );
       const responseApi: ResponseApi = {
         statusCode: 200,
