@@ -4,3 +4,8 @@ export interface Category {
   description?: string | null;
   imageUrl: string;
 }
+
+export interface BestSellersByCategory {
+  categoryId: string;
+  quantity: string;
+}
