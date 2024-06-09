@@ -26,7 +26,10 @@ export class CategoryRepository {
   }
 
   async findById(id: string): Promise<Category | null> {
-    return prisma.category.findUnique({ where: { id } });
+    return prisma.category.findUnique({
+      where: { id },
+      include: { product: { include: { productImage: true, discount: true } } },
+    });
   }
 
   async update(
