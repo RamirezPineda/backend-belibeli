@@ -24,4 +24,7 @@ export enum ENDPOINTS {
   PRODUCTS_BEST_SELLERS = '/products-best-sellers',
   CATEGORIES_BEST_SELLERS = '/categories-best-sellers',
   USERS_PROFILE = '/users-profile',
+  NOTIFICATIONS = '/notifications',
+  NOTIFICATIONS_ID = '/notifications/:id',
+  NOTIFICATIONS_USERS = '/notifications-users',
 }
