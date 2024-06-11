@@ -1,16 +1,28 @@
+import { socket } from '@/main';
+
+import {
+  ADMIN_NOTIFICATION_EVENT,
+  USER_NOTIFICATION_EVENT,
+} from '@/common/constants';
 import type { QueryOptions } from '@/common/interfaces';
 import { ResponseError, convertToQuery } from '@/common/utils';
-import type { User } from '@/users/models/user.model';
 
+import { StripePayment, calculateProductPrice } from '@/orders/utils';
 import { OrderRepository } from '@/orders/repositories/order.repository';
 import { ProductRepository } from '@/products/repositories/product.repository';
+import { NotificationRepository } from '@/notifications/repositories/notification.repository';
 import type { OrderCreateDto, ProductOrderCreateDto } from '@/orders/dto';
-import { StripePayment, calculateProductPrice } from '@/orders/utils';
+import type { User } from '@/users/models/user.model';
+import type {
+  CreateNotification,
+  Notification,
+} from '@/notifications/models/notification.model';
 
 export class OrderService {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly productRepository: ProductRepository,
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async findAll(queryOptions: QueryOptions) {
@@ -41,7 +53,14 @@ export class OrderService {
       });
       paymentIntentId = id;
 
-      return this.orderRepository.create(restOrderCreateDto, user.id);
+      const newOrder = await this.orderRepository.create(
+        restOrderCreateDto,
+        user.id,
+      );
+
+      this.sendNotification(newOrder.id, user.name);
+
+      return newOrder;
     } catch (error) {
       if (paymentIntentId !== '') {
         await StripePayment.refund({ paymentIntentId, amount });
@@ -49,7 +68,7 @@ export class OrderService {
 
       throw new ResponseError({
         messages: [
-          'Lo siento, no se pudo procesar la orden de compra en este momento debido a problemas técnicos. Por favor, inténtelo de nuevo más tarde.',
+          'Sorry, the purchase order could not be processed at this time due to technical issues. Please try again later.',
         ],
       });
     }
@@ -102,5 +121,31 @@ export class OrderService {
     await Promise.all(calculateTotalPromise);
 
     return parseFloat(amount.toFixed(2));
+  }
+
+  private sendNotification(orderId: string, userName: string) {
+    const newNotification: CreateNotification = {
+      title: 'Thank you for your purchase at BeliBeli.com!',
+      description: `Your purchase is on the way ${userName}! We are pleased to inform you that your order has been successfully processed and is in the shipping process. Thanks for trusting us!`,
+      orderId,
+    };
+    const adminNotification: CreateNotification = {
+      title: 'New purchase order at BeliBeli.com!',
+      description: `A new purchase order has been placed on BeliBeli.com by user ${userName}. Please check the admin panel for more details.`,
+      orderId,
+      private: true,
+    };
+    this.notificationRepository
+      .create(newNotification)
+      .then((data: Notification) => {
+        socket?.emit(USER_NOTIFICATION_EVENT, data);
+      })
+      .catch();
+    this.notificationRepository
+      .create(adminNotification)
+      .then((data: Notification) => {
+        socket?.emit(ADMIN_NOTIFICATION_EVENT, data);
+      })
+      .catch();
   }
 }
