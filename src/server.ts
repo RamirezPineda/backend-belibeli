@@ -1,9 +1,13 @@
+import http from 'node:http';
 import express, { type Router, type Express } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
+import { Server as ServerSocket } from 'socket.io';
 
+import { type DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { PATH_PREFIX } from '@common/constants';
+import { EnvConfig } from '@/config';
 
 interface Options {
   port: number;
@@ -15,6 +19,12 @@ export class Server {
   private readonly port: number;
   private readonly routes: Router;
   private serverListener?: any;
+  public socketIo?: ServerSocket<
+    DefaultEventsMap,
+    DefaultEventsMap,
+    DefaultEventsMap,
+    any
+  >;
 
   constructor(options: Options) {
     const { port, routes } = options;
@@ -35,7 +45,17 @@ export class Server {
     //* Routes
     this.app.use(PATH_PREFIX, this.routes);
 
-    this.serverListener = this.app.listen(this.port, () => {
+    //* Server
+    const server = http.createServer(this.app);
+
+    //* Socket
+    this.socketIo = new ServerSocket(server, {
+      cors: {
+        origin: EnvConfig.FRONTEND_URL,
+      },
+    });
+
+    this.serverListener = server.listen(this.port, () => {
       console.log(`Server ready on https://localhost:${this.port} 🚀`);
     });
   }
