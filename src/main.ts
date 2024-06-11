@@ -1,6 +1,9 @@
+import { Server as ServerSocket } from 'socket.io';
+import { type DefaultEventsMap } from 'socket.io/dist/typed-events';
+
 import { Server } from '@/server';
 import { Routes } from '@/routes';
-import { EnvConfig } from '@config/app.config';
+import { EnvConfig } from '@/config';
 
 async function main() {
   const server = new Server({
@@ -9,8 +12,16 @@ async function main() {
   });
 
   server.start();
+  return server;
 }
 
+let socket:
+  | ServerSocket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+  | undefined;
+
 (async () => {
-  main();
+  const server = await main();
+  socket = server.socketIo;
 })();
+
+export { socket };
