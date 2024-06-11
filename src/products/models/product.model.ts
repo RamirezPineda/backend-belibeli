@@ -11,7 +11,7 @@ export type Department = 'MEN' | 'WOMAN';
 
 export interface Product {
   id: string;
-  brand: string;
+  brand?: string | null;
   creationDate: Date;
   department: Department;
   description: string;
