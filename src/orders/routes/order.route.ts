@@ -7,6 +7,7 @@ import { authentication, authorization } from '@/auth/middlewares';
 
 import { OrderRepository } from '@/orders/repositories/order.repository';
 import { ProductRepository } from '@/products/repositories/product.repository';
+import { NotificationRepository } from '@/notifications/repositories/notification.repository';
 import { OrderService } from '@/orders/services/order.service';
 import { OrderController } from '@/orders/controllers/order.controller';
 import { orderCreateDtoSchema } from '@/orders/dto';
@@ -17,7 +18,12 @@ export class OrderRoute {
 
     const productRepository = new ProductRepository();
     const orderRepository = new OrderRepository();
-    const orderService = new OrderService(orderRepository, productRepository);
+    const notificationRepository = new NotificationRepository();
+    const orderService = new OrderService(
+      orderRepository,
+      productRepository,
+      notificationRepository,
+    );
     const orderController = new OrderController(orderService);
 
     router.get(
