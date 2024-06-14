@@ -45,14 +45,28 @@ export class OrderRepository {
   async findById(id: string): Promise<Order | null> {
     return prisma.order.findUnique({
       where: { id },
-      include: { user: true, productOrder: { include: { product: true } } },
+      include: {
+        user: true,
+        productOrder: {
+          include: {
+            product: { include: { productImage: true, discount: true } },
+          },
+        },
+      },
     });
   }
 
   async findByIdAndByUserId(id: string, userId: string): Promise<Order | null> {
     return prisma.order.findUnique({
       where: { id, userId },
-      include: { user: true, productOrder: { include: { product: true } } },
+      include: {
+        user: true,
+        productOrder: {
+          include: {
+            product: { include: { productImage: true, discount: true } },
+          },
+        },
+      },
     });
   }
 }
