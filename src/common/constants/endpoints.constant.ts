@@ -27,4 +27,8 @@ export enum ENDPOINTS {
   NOTIFICATIONS = '/notifications',
   NOTIFICATIONS_ID = '/notifications/:id',
   NOTIFICATIONS_USERS = '/notifications-users',
+  ANALYTICS_TOTAL_USERS_OF_MONTH = '/analytics-total-users-of-month',
+  ANALYTICS_TOTAL_SALE_OF_MONTH = '/analytics-total-sale-of-month',
+  ANALYTICS_BEST_SELLING_PRODUCT = '/analytics-best-selling-product',
+  ANALYTICS_SALES_OF_THE_YEAR = '/analytics-sales-of-the-year',
 }
