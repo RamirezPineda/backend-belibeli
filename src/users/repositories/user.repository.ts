@@ -32,4 +32,15 @@ export class UserRepository {
   async enableOrDisable(id: string, isActive: boolean): Promise<User> {
     return prisma.user.update({ data: { isActive }, where: { id } });
   }
+
+  async numberOfUsersInTheMonth(firstDate: string, lastDate: string) {
+    return prisma.user.count({
+      where: {
+        AND: [
+          { createdAt: { gt: firstDate } },
+          { createdAt: { lt: lastDate } },
+        ],
+      },
+    });
+  }
 }
