@@ -10,6 +10,7 @@ import { ProductRoutes, ProductFavoriteRoutes } from '@/products/routes';
 import { DiscountRoute } from '@/discounts/routes/discount.route';
 import { OrderRoute } from '@/orders/routes/order.route';
 import { NotificationRoute } from '@/notifications/routes/notification.route';
+import { AnalyticRoute } from '@/analytics/routes/analitytic.route';
 
 export class Routes {
   public static get routes(): Router {
@@ -29,6 +30,7 @@ export class Routes {
     router.use(DiscountRoute.routes);
     router.use(OrderRoute.routes);
     router.use(NotificationRoute.routes);
+    router.use(AnalyticRoute.routes);
 
     return router;
   }
