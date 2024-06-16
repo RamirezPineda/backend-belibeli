@@ -7,5 +7,6 @@ export interface Category {
 
 export interface BestSellersByCategory {
   categoryId: string;
+  categoryName: string;
   quantity: string;
 }
