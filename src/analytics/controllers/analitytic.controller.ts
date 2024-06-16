@@ -66,4 +66,19 @@ export class AnalyticController {
       handlerErrors(res, error);
     }
   }
+
+  async bestSellersByCategoryAnalytics(req: Request, res: Response) {
+    try {
+      const bestSellersByCategory =
+        await this.analyticService.bestSellersByCategoryAnalytics();
+      const responseApi: ResponseApi = {
+        statusCode: 200,
+        data: bestSellersByCategory,
+      };
+
+      res.status(200).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
 }
