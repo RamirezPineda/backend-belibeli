@@ -8,6 +8,7 @@ import { AnalyticService } from '@/analytics/services/analitytic.service';
 import { ProductOrderRepository } from '@/analytics/repositories/product-order.repository';
 import { ProductRepository } from '@/products/repositories';
 import { UserRepository } from '@/users/repositories/user.repository';
+import { CategoryRepository } from '@/categories/repositories/category.repository';
 
 export class AnalyticRoute {
   static get routes() {
@@ -16,10 +17,12 @@ export class AnalyticRoute {
     const productOrderRepository = new ProductOrderRepository();
     const productRepository = new ProductRepository();
     const userRepository = new UserRepository();
+    const categoryRepository = new CategoryRepository();
     const analyticService = new AnalyticService(
       productOrderRepository,
       productRepository,
       userRepository,
+      categoryRepository,
     );
     const analyticController = new AnalyticController(analyticService);
 
@@ -47,6 +50,14 @@ export class AnalyticRoute {
       authentication,
       authorization,
       analyticController.salesOfTheYear.bind(analyticController),
+    );
+    router.get(
+      ENDPOINTS.ANALYTICS_BEST_SELLER_BY_CATEGORY,
+      authentication,
+      authorization,
+      analyticController.bestSellersByCategoryAnalytics.bind(
+        analyticController,
+      ),
     );
 
     return router;
