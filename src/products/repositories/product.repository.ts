@@ -7,6 +7,7 @@ import type {
   ProductUpdateDto,
 } from '@/products/dto';
 import type { Product } from '@/products/models';
+import { BestSellersByProduct } from '../interfaces/product-query.interface';
 
 export class ProductRepository {
   async findAll(query: Query, categoryId?: string): Promise<Product[]> {
@@ -77,18 +78,14 @@ export class ProductRepository {
     });
   }
 
-  async bestSellers(query: Query, categoryId?: string) {
-    return prisma.productOrder.groupBy({
-      by: ['productId', 'quantity'],
-      _sum: { quantity: true },
-      orderBy: {
-        quantity: query.orderBy.createdAt,
-      },
-      take: query.take,
-      skip: query.skip,
-      where: {
-        product: { ...query.where, categoryId },
-      },
-    });
+  async bestSellers(query: Query): Promise<BestSellersByProduct[]> {
+    return prisma.$queryRaw`
+      SELECT prod_ord."productId", CAST(SUM(prod_ord.quantity) AS INTEGER) as quantity
+      FROM "ProductOrder" as prod_ord
+      INNER JOIN "Product" as prod ON prod.id = prod_ord."productId"
+      GROUP BY prod_ord."productId"
+      ORDER BY quantity DESC
+      LIMIT ${query?.take} OFFSET ${query?.skip}
+    `;
   }
 }
