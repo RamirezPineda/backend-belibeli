@@ -18,6 +18,7 @@ import type {
 } from '@/products/dto';
 import type { ProductQueryOptions } from '@/products/interfaces/product-query.interface';
 import type { Product } from '@/products/models';
+import { QueryOptions } from '@/common/interfaces';
 
 export class ProductService {
   constructor(
@@ -116,13 +117,9 @@ export class ProductService {
     );
   }
 
-  async bestSellers(queryOptions: ProductQueryOptions) {
-    const { categoryId, ...rest } = queryOptions;
-    const query = convertToQuery(rest);
-    const mostSelledProducts = await this.productRepository.bestSellers(
-      query,
-      categoryId,
-    );
+  async bestSellers(queryOptions: QueryOptions) {
+    const query = convertToQuery(queryOptions);
+    const mostSelledProducts = await this.productRepository.bestSellers(query);
 
     const products: Product[] = [];
     for await (const element of mostSelledProducts) {
