@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 
-import type { ResponseApi } from '@/common/interfaces';
+import type { QueryOptions, ResponseApi } from '@/common/interfaces';
 import { handlerErrors } from '@/common/utils';
 
 import { ProductService } from '@/products/services/product.service';
@@ -80,7 +80,7 @@ export class ProductController {
 
   async bestSellers(req: Request, res: Response) {
     try {
-      const queryOptions: ProductQueryOptions = req.query;
+      const queryOptions: QueryOptions = req.query;
       const products = await this.productService.bestSellers(queryOptions);
       const responseApi: ResponseApi = { statusCode: 200, data: products };
 
