@@ -46,14 +46,15 @@ export class CategoryRepository {
     return prisma.category.delete({ where: { id } });
   }
 
-  async bestSellers({ skip, take }: Query): Promise<BestSellersByCategory[]> {
+  async bestSellers(query?: Query): Promise<BestSellersByCategory[]> {
     return prisma.$queryRaw`
-      SELECT prod."categoryId", CAST(SUM(prod_ord.quantity) AS INTEGER) as quantity
+      SELECT prod."categoryId", cat.name as "categoryName", CAST(SUM(prod_ord.quantity) AS INTEGER) as quantity
       FROM "Product" as prod
-      INNER JOIN "ProductOrder" as prod_ord On prod.id = prod_ord."productId"
-      GROUP BY prod."categoryId"
+      INNER JOIN "ProductOrder" as prod_ord ON prod.id = prod_ord."productId"
+      INNER JOIN "Category" as cat ON prod."categoryId" = cat.id
+      GROUP BY prod."categoryId", cat.name
       ORDER BY quantity DESC
-      LIMIT ${take} OFFSET ${skip};
+      LIMIT ${query?.take} OFFSET ${query?.skip};
     `;
   }
 }
