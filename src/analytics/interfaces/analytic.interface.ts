@@ -3,3 +3,8 @@ export interface SalesOfTheMoth {
   firstDate: string;
   lastDate: string;
 }
+
+export interface SalesOfTheYear {
+  month: string;
+  totalSale: number;
+}
