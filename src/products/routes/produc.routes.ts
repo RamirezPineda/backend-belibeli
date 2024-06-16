@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { ENDPOINTS } from '@/common/constants';
 import { schemaValidator, upload } from '@/common/middlewares';
-import { paramsDtoSchema } from '@/common/dto';
+import { paramsDtoSchema, queryOptionsDtoSchema } from '@/common/dto';
 import { authentication, authorization } from '@/auth/middlewares';
 
 import {
@@ -61,7 +61,7 @@ export class ProductRoutes {
 
     router.get(
       ENDPOINTS.PRODUCTS_BEST_SELLERS,
-      schemaValidator({ query: productQueryOptionsDtoSchema }),
+      schemaValidator({ query: queryOptionsDtoSchema }),
       productController.bestSellers.bind(productController),
     );
 
