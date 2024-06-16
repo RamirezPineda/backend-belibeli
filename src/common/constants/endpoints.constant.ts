@@ -31,4 +31,5 @@ export enum ENDPOINTS {
   ANALYTICS_TOTAL_SALE_OF_MONTH = '/analytics-total-sale-of-month',
   ANALYTICS_BEST_SELLING_PRODUCT = '/analytics-best-selling-product',
   ANALYTICS_SALES_OF_THE_YEAR = '/analytics-sales-of-the-year',
+  ANALYTICS_BEST_SELLER_BY_CATEGORY = '/analytics-best-seller-by-category',
 }
