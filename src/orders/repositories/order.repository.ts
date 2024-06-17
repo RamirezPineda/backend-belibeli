@@ -47,7 +47,11 @@ export class OrderRepository {
       },
       include: {
         user: true,
-        productOrder: { include: { product: { include: { discount: true } } } },
+        productOrder: {
+          include: {
+            product: { include: { discount: true, productImage: true } },
+          },
+        },
       },
     });
   }
