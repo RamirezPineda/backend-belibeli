@@ -8,7 +8,10 @@ export class OrderRepository {
   async findAll(query: Query): Promise<Order[]> {
     return prisma.order.findMany({
       ...query,
-      include: { user: true, productOrder: { include: { product: true } } },
+      include: {
+        user: true,
+        productOrder: { include: { product: { include: { discount: true } } } },
+      },
     });
   }
 
@@ -20,7 +23,10 @@ export class OrderRepository {
     return prisma.order.findMany({
       ...query,
       where: { ...query.where, userId },
-      include: { user: true, productOrder: { include: { product: true } } },
+      include: {
+        user: true,
+        productOrder: { include: { product: { include: { discount: true } } } },
+      },
     });
   }
 
@@ -34,11 +40,15 @@ export class OrderRepository {
   ): Promise<Order> {
     return prisma.order.create({
       data: {
+        code: Date.now().toString(),
         note: data.note,
         userId,
         productOrder: { create: data.productOrder },
       },
-      include: { user: true, productOrder: { include: { product: true } } },
+      include: {
+        user: true,
+        productOrder: { include: { product: { include: { discount: true } } } },
+      },
     });
   }
 
