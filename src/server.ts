@@ -51,7 +51,7 @@ export class Server {
     //* Socket
     this.socketIo = new ServerSocket(server, {
       cors: {
-        origin: EnvConfig.FRONTEND_URL,
+        origin: '*',
       },
     });
 
