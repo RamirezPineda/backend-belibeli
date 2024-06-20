@@ -3,13 +3,21 @@
   "builds": [
    {
     "src": "dist/main.js",
-    "use": "@vercel/node"
+    "use": "@vercel/node",
+    "config": { "includeFiles": ["dist/**"] }
    }
   ],
   "routes": [
    {
     "src": "/(.*)",
-    "dest": "dist/main.js"
+    "dest": "dist/main.js",
+    "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    "headers": {
+      "Access-Control-Allow-Credentials": "true",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+      "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    }
    }
   ]
  }
