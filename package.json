@@ -6,8 +6,7 @@
   "license": "MIT",
   "main": "dist/main.js",
   "engines": {
-    "node": ">=20.12.0",
-    "npm": ">=10.5.0"
+    "node": ">=20.12.0"
   },
   "scripts": {
     "build": "rimraf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
