@@ -19,9 +19,12 @@ let socket:
   | ServerSocket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
   | undefined;
 
+let app: Server | undefined;
+
 (async () => {
   const server = await main();
   socket = server.socketIo;
+  app = server;
 })();
 
-export { socket };
+export { socket, app };
