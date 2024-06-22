@@ -9,7 +9,7 @@
     "node": ">=20.12.0"
   },
   "scripts": {
-    "build": "rimraf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "npx prisma db push && rimraf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "node dist/main.js",
     "dev": "tsnd -r tsconfig-paths/register --respawn --transpile-only src/main.ts",
     "lint": "eslint \"{src,tests}/**/*.ts\" ",
@@ -17,7 +17,8 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "db:migrate": "npx prisma migrate dev --name init",
-    "db:push": "npx prisma db push"
+    "db:push": "npx prisma db push",
+    "vercel-build": "echo deploy"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
