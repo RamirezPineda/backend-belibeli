@@ -17,8 +17,7 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "db:migrate": "npx prisma migrate dev --name init",
-    "db:push": "npx prisma db push",
-    "vercel-build": "echo deploy"
+    "db:push": "npx prisma db push"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",
