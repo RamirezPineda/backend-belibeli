@@ -33,5 +33,3 @@ export const EnvConfig: EnvConfigProps = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? '',
   FRONTEND_URL: process.env.FRONTEND_URL ?? '',
 };
-
-console.log(EnvConfig)
