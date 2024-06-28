@@ -5,7 +5,16 @@ export class ProductFavoriteRepository {
   async findAllByUserId(userId: string): Promise<ProductFavorite[]> {
     return prisma.productFavorite.findMany({
       where: { userId },
-      include: { product: { include: { productImage: true, discount: true } } },
+      include: {
+        product: {
+          include: {
+            productImage: true,
+            discount: true,
+            package: true,
+            category: true,
+          },
+        },
+      },
     });
   }
 
