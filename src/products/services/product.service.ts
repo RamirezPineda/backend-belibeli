@@ -39,7 +39,7 @@ export class ProductService {
     images: Express.Multer.File[],
   ) {
     const promiseImages = images.map((image) =>
-      UploadFile.upload(image.path, '/products'),
+      UploadFile.upload(image.path, 'products'),
     );
     const uploadedImages = await Promise.all(promiseImages);
 
