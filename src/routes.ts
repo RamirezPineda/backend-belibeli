@@ -17,7 +17,7 @@ export class Routes {
     const router = Router();
 
     // path to check server status
-    router.get(ENDPOINTS.HEALTH, (_, res) => res.status(200).json());
+    router.get(ENDPOINTS.HEALTH, (_, res) => res.status(200).json({}));
 
     router.use(SeedRoutes.routes);
     router.use(AuthRoutes.routes);
