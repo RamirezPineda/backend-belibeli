@@ -9,14 +9,25 @@ import type { QueryOptions } from '@/common/interfaces';
 
 import type { CategoryCreateDto, CategoryUpdateDto } from '@/categories/dto';
 import { CategoryRepository } from '@/categories/repositories/category.repository';
-import { Category } from '../models/category.model';
+import {
+  Category,
+  CategoryQueryOptions,
+} from '@/categories/models/category.model';
 
 export class CategoryService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async findAll(queryOptions: QueryOptions) {
-    const query = convertToQuery(queryOptions);
-    const categories = await this.categoryRepository.findAll(query);
+  async findAll(queryOptions: CategoryQueryOptions) {
+    const { withProducts, ...restQuery } = queryOptions;
+    const query = convertToQuery(restQuery);
+    const include = withProducts
+      ? {
+          product: {
+            include: { productImage: true, discount: true, package: true, category: true },
+          },
+        }
+      : undefined;
+    const categories = await this.categoryRepository.findAll(query, include);
     const countData = await this.categoryRepository.countData(query);
     return { data: categories, countData };
   }
