@@ -5,17 +5,20 @@ import type { CategoryCreateDto, CategoryUpdateDto } from '@/categories/dto';
 import type {
   BestSellersByCategory,
   Category,
+  CategoryInclude,
 } from '@/categories/models/category.model';
 
 export class CategoryRepository {
-  async findAll(query: Query): Promise<Category[]> {
-    return prisma.category.findMany(query);
+  async findAll(query: Query, include?: CategoryInclude): Promise<Category[]> {
+    return prisma.category.findMany({
+      ...query,
+      include
+    });
   }
 
   async countData(query: Query): Promise<number> {
     return prisma.category.count({ where: { ...query.where } });
   }
-
   async create(
     categoryCreateDto: CategoryCreateDto,
     imageUrl: string,
