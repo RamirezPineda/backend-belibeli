@@ -10,6 +10,7 @@ import { CategoryService } from '@/categories/services/category.service';
 import { CategoryRepository } from '@/categories/repositories/category.repository';
 import {
   categoryCreateDtoSchema,
+  categoryQueryOptionsDtoSchema,
   categoryUpdateDtoSchema,
 } from '@/categories/dto';
 
@@ -23,7 +24,7 @@ export class CategoryRoutes {
 
     router.get(
       ENDPOINTS.CATEGORIES,
-      schemaValidator({ query: queryOptionsDtoSchema }),
+      schemaValidator({ query: categoryQueryOptionsDtoSchema }),
       categoryController.findAll.bind(categoryController),
     );
     router.post(
