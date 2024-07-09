@@ -3,7 +3,7 @@ import { stripe } from '@/config';
 
 interface CreatePaymentIntents {
   amount: number;
-  confirmationTokenId: string;
+  confirmationTokenId?: string;
 }
 
 interface Refound {
@@ -15,7 +15,7 @@ interface Refound {
 The amount must be multiplied by * 100 because stripe handles USD cents.
 For example for 10 dollars:  $10 = 10 * 100 = 1000
 */
-const centsDollars = 100;
+const CENTS_DOLLARS = 100;
 
 export class StripePayment {
   static async createPaymentIntents({
@@ -23,8 +23,8 @@ export class StripePayment {
     confirmationTokenId,
   }: CreatePaymentIntents): Promise<Stripe.Response<Stripe.PaymentIntent>> {
     return stripe.paymentIntents.create({
-      confirm: true,
-      amount: amount * centsDollars,
+      confirm: confirmationTokenId ? true : false,
+      amount: amount * CENTS_DOLLARS,
       currency: 'usd',
       description: 'Compra de productos del E-commerce',
       automatic_payment_methods: { enabled: true },
@@ -36,7 +36,7 @@ export class StripePayment {
   static async refund({ paymentIntentId, amount }: Refound) {
     return await stripe.refunds.create({
       payment_intent: paymentIntentId,
-      amount: amount * centsDollars,
+      amount: amount * CENTS_DOLLARS,
     });
   }
 }
