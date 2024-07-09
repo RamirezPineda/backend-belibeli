@@ -5,7 +5,7 @@ import { handlerErrors } from '@/common/utils';
 import type { User } from '@/users/models/user.model';
 
 import { OrderService } from '@/orders/services/order.service';
-import type { OrderCreateDto } from '@/orders/dto';
+import type { OrderCreateDto, OrderCreatePaymentDto } from '@/orders/dto';
 
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -80,6 +80,34 @@ export class OrderController {
         user.id,
       );
       const responseApi: ResponseApi = { statusCode: 200, data: orderFound };
+
+      res.status(responseApi.statusCode).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async createPayment(req: Request, res: Response) {
+    try {
+      const orderCreateDto: OrderCreatePaymentDto = req.body.data;
+      const id = await this.orderService.createPayment(orderCreateDto);
+      const responseApi: ResponseApi = { statusCode: 201, data: id };
+
+      res.status(responseApi.statusCode).json(responseApi);
+    } catch (error) {
+      handlerErrors(res, error);
+    }
+  }
+
+  async createOrderPayment(req: Request, res: Response) {
+    try {
+      const orderCreateDto: OrderCreatePaymentDto = req.body.data;
+      const user: Omit<User, 'password'> = req.body.payload;
+      const newOrder = await this.orderService.createOrderPayment(
+        orderCreateDto,
+        user,
+      );
+      const responseApi: ResponseApi = { statusCode: 201, data: newOrder };
 
       res.status(responseApi.statusCode).json(responseApi);
     } catch (error) {
