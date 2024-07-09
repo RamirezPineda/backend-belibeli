@@ -11,7 +11,11 @@ import { StripePayment, calculateProductPrice } from '@/orders/utils';
 import { OrderRepository } from '@/orders/repositories/order.repository';
 import { ProductRepository } from '@/products/repositories/product.repository';
 import { NotificationRepository } from '@/notifications/repositories/notification.repository';
-import type { OrderCreateDto, ProductOrderCreateDto } from '@/orders/dto';
+import type {
+  OrderCreateDto,
+  OrderCreatePaymentDto,
+  ProductOrderCreateDto,
+} from '@/orders/dto';
 import type { User } from '@/users/models/user.model';
 import type {
   CreateNotification,
@@ -95,6 +99,30 @@ export class OrderService {
     }
 
     return orderFound;
+  }
+
+  async createPayment(orderCreateDto: OrderCreatePaymentDto) {
+    const amount = await this.calculateAmount(orderCreateDto.productOrder);
+
+    try {
+      return await StripePayment.createPaymentIntents({ amount });
+    } catch (error) {
+      throw new ResponseError({
+        messages: [
+          'Sorry, the purchase order could not be processed at this time due to technical issues. Please try again later.',
+        ],
+      });
+    }
+  }
+
+  async createOrderPayment(orderCreateDto: OrderCreatePaymentDto, user: Omit<User, 'password'>) {
+    const newOrder = await this.orderRepository.create(
+      orderCreateDto,
+      user.id,
+    );
+
+    this.sendNotification(newOrder.id, user.name);
+    return newOrder;
   }
 
   private async calculateAmount(createProductOrders: ProductOrderCreateDto) {
