@@ -4,7 +4,7 @@
   "description": "An e-commerce project to sell products online.",
   "author": "Ricky Roy Ramirez Pineda",
   "license": "MIT",
-  "main": "dist/main.js",
+  "main": "main.js",
   "engines": {
     "node": ">=20.12.0"
   },
