@@ -32,4 +32,6 @@ export enum ENDPOINTS {
   ANALYTICS_BEST_SELLING_PRODUCT = '/analytics-best-selling-product',
   ANALYTICS_SALES_OF_THE_YEAR = '/analytics-sales-of-the-year',
   ANALYTICS_BEST_SELLER_BY_CATEGORY = '/analytics-best-seller-by-category',
+  CREATE_PAYMENT = '/create-payment',
+  CREATE_ORDER_PAYMENT = '/create-order-payment',
 }
