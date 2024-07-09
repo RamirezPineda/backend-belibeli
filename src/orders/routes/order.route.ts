@@ -10,7 +10,10 @@ import { ProductRepository } from '@/products/repositories/product.repository';
 import { NotificationRepository } from '@/notifications/repositories/notification.repository';
 import { OrderService } from '@/orders/services/order.service';
 import { OrderController } from '@/orders/controllers/order.controller';
-import { orderCreateDtoSchema } from '@/orders/dto';
+import {
+  orderCreateDtoSchema,
+  orderCreatePaymentDtoSchema,
+} from '@/orders/dto';
 
 export class OrderRoute {
   static get routes() {
@@ -45,6 +48,18 @@ export class OrderRoute {
       authorization,
       schemaValidator({ params: paramsDtoSchema }),
       orderController.findById.bind(orderController),
+    );
+    router.post(
+      ENDPOINTS.CREATE_PAYMENT,
+      authentication,
+      schemaValidator({ body: orderCreatePaymentDtoSchema }),
+      orderController.createPayment.bind(orderController),
+    );
+    router.post(
+      ENDPOINTS.CREATE_ORDER_PAYMENT,
+      authentication,
+      schemaValidator({ body: orderCreatePaymentDtoSchema }),
+      orderController.createOrderPayment.bind(orderController),
     );
 
     router.get(
