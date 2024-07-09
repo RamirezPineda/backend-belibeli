@@ -34,5 +34,14 @@ export const orderCreateDtoSchema = z
   })
   .strict();
 
+export const orderCreatePaymentDtoSchema = orderCreateDtoSchema.extend({
+  confirmationTokenId: z
+    .string({
+      message: 'Payment confirmation token is required',
+    })
+    .optional(),
+});
+
 export type OrderCreateDto = z.infer<typeof orderCreateDtoSchema>;
 export type ProductOrderCreateDto = z.infer<typeof productOrderCreateDtoSchema>;
+export type OrderCreatePaymentDto = z.infer<typeof orderCreatePaymentDtoSchema>;
